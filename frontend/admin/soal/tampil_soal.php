@@ -210,7 +210,7 @@ $query = mysqli_query($conn, "SELECT * FROM soal ORDER BY id DESC");
                                         </li>
                                         <li>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="../../logout.php">Logout</a>
+                                            <a class="dropdown-item" href="../../../logout.php">Logout</a>
                                         </li>
                                     </div>
                                 </ul>
