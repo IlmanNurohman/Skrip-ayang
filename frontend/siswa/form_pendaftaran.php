@@ -27,6 +27,41 @@ $data_daftar = mysqli_fetch_assoc($query_cek);
 // 4. Ambil data user (PERBAIKAN: Gunakan $id_user, bukan $id)
 $query_user = mysqli_query($conn, "SELECT username, foto FROM users WHERE id='$id_user'");
 $user = mysqli_fetch_assoc($query_user);
+
+// Ambil data periode pendaftaran terbaru/aktif
+$query_periode = mysqli_query($conn, "
+    SELECT * FROM periode
+    WHERE CURDATE() BETWEEN tanggal_mulai AND tanggal_selesai
+    LIMIT 1
+");
+
+$periode = mysqli_fetch_assoc($query_periode);
+$periodeAktif = ($periode !== null);
+
+if ($periodeAktif) {
+    $catatan = $periode['catatan'] ?? 'Tidak ada catatan.';
+
+    $tgl_mulai = date('d F Y', strtotime($periode['tanggal_mulai']));
+    $tgl_selesai = date('d F Y', strtotime($periode['tanggal_selesai']));
+} else {
+    $catatan = 'Tidak ada periode aktif.';
+    $tgl_mulai = '-';
+    $tgl_selesai = '-';
+}
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM pendaftaran 
+     WHERE id_user = '$id_user'
+     AND status = 'lulus'
+     LIMIT 1"
+);
+
+if (!$query) {
+    die("Query Gagal: " . mysqli_error($conn));
+}
+
+$cek_daftar = mysqli_fetch_assoc($query);
+
 ?>
 
 
@@ -118,12 +153,14 @@ $user = mysqli_fetch_assoc($query_user);
 
                             </a>
                         </li>
+                        <?php if ($cek_daftar): ?>
                         <li class="nav-item">
                             <a href="ujian.php">
-                                <i class="fas fa-th-list"></i>
+                                <i class=" fas fa-th-list"></i>
                                 <p>Seleksi</p>
                             </a>
                         </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <a href="hasil_pendaftaran.php">
                                 <i class="fas fa-pen-square"></i>

@@ -28,8 +28,8 @@ $data = mysqli_fetch_assoc($query);
 if (!$data) {
     die("Data tidak ditemukan.");
 }
-define('SECRET_KEY', 'ganti_dengan_kunci_rahasia_yang_sangat_panjang_123!@#');
-define('SECRET_IV', 'iv_rahasia_456!@#');
+define('SECRET_KEY', 'e7b434689dac661d0c8fb8d192a36fec76649fc82c3f83e80d17c38d9c3d7320');
+define('SECRET_IV', '2dee9400f5a55a4cbce6e5ed27f615e2');
 
 function decryptData($string) {
     if ($string === null || $string === '') return '';
@@ -85,7 +85,7 @@ function decryptData($string) {
                   <div class="sidebar-logo">
                       <!-- Logo Header -->
                       <div class="logo-header" data-background-color="dark">
-                          <a href="../index.html" class="logo">
+                          <a href="../dashboard_admin.php" class="logo">
                               <img src="../../../assets/img/logo_ict.png" alt="navbar brand"
                                   style="height: 30px; margin-right: 10px;" />
                           </a>
@@ -125,7 +125,7 @@ function decryptData($string) {
                                   </a>
                               </li>
                               <li class="nav-item">
-                                  <a href="../soal/tampil_soal.php">
+                                  <a href="../soal/index.php">
                                       <i class="fas fa-th-list"></i>
                                       <p>Bank Soal</p>
                                   </a>

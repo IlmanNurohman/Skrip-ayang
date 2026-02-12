@@ -65,7 +65,7 @@ $user  = mysqli_fetch_assoc($query);
             <div class="sidebar-logo">
                 <!-- Logo Header -->
                 <div class="logo-header" data-background-color="dark">
-                    <a href="../index.html" class="logo">
+                    <a href="../dashboard_admin.php" class="logo">
                         <img src="../../../assets/img/logo_ict.png" alt="navbar brand"
                             style="height: 30px; margin-right: 10px;" />
                     </a>
@@ -107,7 +107,7 @@ $user  = mysqli_fetch_assoc($query);
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="../soal/tampil_soal.php">
+                            <a href="../soal/index.php">
                                 <i class="fas fa-th-list"></i>
                                 <p>Bank Soal</p>
                             </a>
@@ -301,7 +301,7 @@ $user  = mysqli_fetch_assoc($query);
                                                                 <i class="fa fa-edit"></i>
                                                             </button>
 
-                                                            <a href="proses_periode.php?aksi=hapus&id=<?= $p['id'] ?>"
+                                                            <a href="../../../backend/proses_periode.php?aksi=hapus&id=<?= $p['id'] ?>"
                                                                 class="btn btn-link btn-danger px-1"
                                                                 onclick="return confirm('Apakah Anda yakin ingin menghapus periode ini?')">
                                                                 <i class="fas fa-trash"></i>
@@ -314,7 +314,9 @@ $user  = mysqli_fetch_assoc($query);
                                                     tabindex="-1" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
-                                                            <form action="proses_periode.php?aksi=update" method="POST">
+                                                            <form
+                                                                action="../../../backend/proses_periode.php?aksi=update"
+                                                                method="POST">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title">Edit Periode</h5>
                                                                     <button type="button" class="btn-close"
@@ -425,7 +427,7 @@ $user  = mysqli_fetch_assoc($query);
         <div class="modal fade" id="modalTambahPeriode" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="proses_periode.php?aksi=tambah" method="POST">
+                    <form action="../../../backend/proses_periode.php?aksi=tambah" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title">Tambah Periode Baru</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

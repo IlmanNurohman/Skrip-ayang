@@ -61,7 +61,7 @@ $query = mysqli_query($conn, "SELECT * FROM soal ORDER BY id DESC");
             <div class="sidebar-logo">
                 <!-- Logo Header -->
                 <div class="logo-header" data-background-color="dark">
-                    <a href="../index.html" class="logo">
+                    <a href="../dashboard_admin.php" class="logo">
                         <img src="../../../assets/img/logo_ict.png" alt="navbar brand"
                             style="height: 30px; margin-right: 10px;" />
                     </a>
@@ -101,7 +101,7 @@ $query = mysqli_query($conn, "SELECT * FROM soal ORDER BY id DESC");
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="../soal/tampil_soal.php">
+                            <a href="../soal/index.php">
                                 <i class="fas fa-th-list"></i>
                                 <p>Bank Soal</p>
                             </a>

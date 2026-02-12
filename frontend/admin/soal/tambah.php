@@ -100,7 +100,7 @@ $user  = mysqli_fetch_assoc($query);
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="../soal/tampil_soal.php">
+                            <a href="../soal/index.php">
                                 <i class="fas fa-th-list"></i>
                                 <p>Bank Soal</p>
                                 <span class="caret"></span>
@@ -315,7 +315,7 @@ $user  = mysqli_fetch_assoc($query);
                                 <div class="card-header">
                                     <div class="card-title">Tambah Soal Baru</div>
                                 </div>
-                                <form action="simpan.php?aksi=tambah" method="POST">
+                                <form action="../../../backend/simpan_soal.php?aksi=tambah" method="POST">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6 col-lg-6">

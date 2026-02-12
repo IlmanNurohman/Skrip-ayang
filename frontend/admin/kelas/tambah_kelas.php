@@ -10,7 +10,7 @@
 
     <h2>Form Tambah Kelas</h2>
 
-    <form action="simpan_kelas.php" method="post">
+    <form action="../../../backend/simpan_kelas.php" method="post">
         <label>Nama Kelas</label><br>
         <input type="text" name="nama_kelas" required><br><br>
 

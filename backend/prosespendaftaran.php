@@ -1,13 +1,14 @@
 <?php
-session_start(); 
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include 'koneksi.php';
 
-define('SECRET_KEY', 'ganti_dengan_kunci_rahasia_yang_sangat_panjang_123!@#');
-define('SECRET_IV', 'iv_rahasia_456!@#');
+define('SECRET_KEY', 'e7b434689dac661d0c8fb8d192a36fec76649fc82c3f83e80d17c38d9c3d7320');
+define('SECRET_IV', '2dee9400f5a55a4cbce6e5ed27f615e2');
 
-function encryptData($string) {
+function encryptData($string)
+{
     $output = false;
     $encrypt_method = "AES-256-CBC";
     $key = hash('sha256', SECRET_KEY);
@@ -16,7 +17,8 @@ function encryptData($string) {
     return base64_encode($output);
 }
 
-function decryptData($string) {
+function decryptData($string)
+{
     $encrypt_method = "AES-256-CBC";
     $key = hash('sha256', SECRET_KEY);
     $iv  = substr(hash('sha256', SECRET_IV), 0, 16);
@@ -26,24 +28,24 @@ function decryptData($string) {
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-   
+
     $id_user = $_SESSION['user_id'];
-   $nama_lengkap     = encryptData(mysqli_real_escape_string($conn, $_POST['nama_lengkap']));
-$jenis_kelamin    = encryptData($_POST['jenis_kelamin']);
-$no_hp            = encryptData(mysqli_real_escape_string($conn, $_POST['no_hp']));
-$email            = encryptData(mysqli_real_escape_string($conn, $_POST['email']));
-$alamat           = encryptData(mysqli_real_escape_string($conn, $_POST['alamat']));
-$asal_sekolah     = encryptData(mysqli_real_escape_string($conn, $_POST['asal_sekolah']));
-$nik              = encryptData(mysqli_real_escape_string($conn, $_POST['nik']));
-$nama_ayah        = encryptData(mysqli_real_escape_string($conn, $_POST['nama_ayah']));
-$nama_ibu         = encryptData(mysqli_real_escape_string($conn, $_POST['nama_ibu']));
-$pekerjaan_ayah   = encryptData(mysqli_real_escape_string($conn, $_POST['pekerjaan_ayah']));
-$pekerjaan_ibu    = encryptData(mysqli_real_escape_string($conn, $_POST['pekerjaan_ibu']));
-$penghasilan_ayah = encryptData(mysqli_real_escape_string($conn, $_POST['penghasilan_ayah']));
-$penghasilan_ibu  = encryptData(mysqli_real_escape_string($conn, $_POST['penghasilan_ibu']));
-$pendidikan_ayah  = encryptData(mysqli_real_escape_string($conn, $_POST['pendidikan_ayah']));
-$pendidikan_ibu   = encryptData(mysqli_real_escape_string($conn, $_POST['pendidikan_ibu']));
-$agama            = encryptData(mysqli_real_escape_string($conn, $_POST['agama']));
+    $nama_lengkap     = encryptData(mysqli_real_escape_string($conn, $_POST['nama_lengkap']));
+    $jenis_kelamin    = encryptData($_POST['jenis_kelamin']);
+    $no_hp            = encryptData(mysqli_real_escape_string($conn, $_POST['no_hp']));
+    $email            = encryptData(mysqli_real_escape_string($conn, $_POST['email']));
+    $alamat           = encryptData(mysqli_real_escape_string($conn, $_POST['alamat']));
+    $asal_sekolah     = encryptData(mysqli_real_escape_string($conn, $_POST['asal_sekolah']));
+    $nik              = encryptData(mysqli_real_escape_string($conn, $_POST['nik']));
+    $nama_ayah        = encryptData(mysqli_real_escape_string($conn, $_POST['nama_ayah']));
+    $nama_ibu         = encryptData(mysqli_real_escape_string($conn, $_POST['nama_ibu']));
+    $pekerjaan_ayah   = encryptData(mysqli_real_escape_string($conn, $_POST['pekerjaan_ayah']));
+    $pekerjaan_ibu    = encryptData(mysqli_real_escape_string($conn, $_POST['pekerjaan_ibu']));
+    $penghasilan_ayah = encryptData(mysqli_real_escape_string($conn, $_POST['penghasilan_ayah']));
+    $penghasilan_ibu  = encryptData(mysqli_real_escape_string($conn, $_POST['penghasilan_ibu']));
+    $pendidikan_ayah  = encryptData(mysqli_real_escape_string($conn, $_POST['pendidikan_ayah']));
+    $pendidikan_ibu   = encryptData(mysqli_real_escape_string($conn, $_POST['pendidikan_ibu']));
+    $agama            = encryptData(mysqli_real_escape_string($conn, $_POST['agama']));
 
 
     // Folder upload (Gunakan path absolut atau pastikan folder ini ada)
@@ -53,7 +55,8 @@ $agama            = encryptData(mysqli_real_escape_string($conn, $_POST['agama']
     }
 
     // Fungsi upload sederhana
-    function uploadFile($file, $prefix, $folder) {
+    function uploadFile($file, $prefix, $folder)
+    {
         if (!empty($file['name'])) {
             $namaFile = $prefix . "_" . time() . "_" . basename($file['name']);
             $target = $folder . $namaFile;

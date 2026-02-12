@@ -8,6 +8,8 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
+$role_session = $_SESSION['role'];
+
 $username_session = $_SESSION['username'];
 
 // Ambil data terbaru dari database berdasarkan username di session
@@ -26,7 +28,7 @@ if (!$user) {
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Datatables - Kaiadmin Bootstrap 5 Admin Dashboard</title>
+    <title>Profile</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <link rel="icon" href="assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
 
@@ -96,9 +98,8 @@ if (!$user) {
             <div class="sidebar-logo">
                 <!-- Logo Header -->
                 <div class="logo-header" data-background-color="dark">
-                    <a href="../index.html" class="logo">
-                        <img src="../assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
-                            height="20" />
+                    <a href="profile.php" class="logo">
+                        <img src="assets/img/logo_ict.png" alt="navbar brand" class="navbar-brand" height="20" />
                     </a>
                     <div class="nav-toggle">
                         <button class="btn btn-toggle toggle-sidebar">
@@ -117,6 +118,85 @@ if (!$user) {
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
+                        <?php if ($_SESSION['role'] == 'siswa'): ?>
+                        <li class="nav-item">
+                            <a href="frontend/siswa/dashboard_siswa.php" class="collapsed" aria-expanded="false">
+                                <i class="fas fa-home"></i>
+                                <p>Dashboard</p>
+
+                            </a>
+                        </li>
+                        <li class="nav-section">
+                            <span class="sidebar-mini-icon">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </span>
+                            <h4 class="text-section">Menu</h4>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="frontend/siswa/form_pendaftaran.php">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Pendaftaran</p>
+
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="frontend/siswa/ujian.php">
+                                <i class=" fas fa-th-list"></i>
+                                <p>Seleksi</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="frontend/siswa/hasil_pendaftaran.php">
+                                <i class="fas fa-pen-square"></i>
+                                <p>Hasil Pendaftaran</p>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if ($_SESSION['role'] == 'admin'): ?>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                                <i class="fas fa-home"></i>
+                                <p>Dashboard</p>
+                            </a>
+
+                        </li>
+                        <li class="nav-section">
+                            <span class="sidebar-mini-icon">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </span>
+                            <h4 class="text-section">Menu</h4>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pendaftaran/index.php">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Pendaftaran</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="soal/index.php">
+                                <i class="fas fa-th-list"></i>
+                                <p>Bank Soal</p>
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="periode/tambah_periode.php">
+                                <i class="fas fa-pen-square"></i>
+                                <p>Periode</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="kelas/index.php">
+                                <i class="fas fa-th-large"></i>
+                                <p>Kelas</p>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if ($_SESSION['role'] == 'super_admin'): ?>
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
                                 <i class="fas fa-home"></i>
@@ -132,20 +212,12 @@ if (!$user) {
                             <h4 class="text-section">Menu</h4>
                         </li>
                         <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#base">
-                                <i class="fas fa-layer-group"></i>
-                                <p>Base</p>
-
+                            <a href="users/index.php">
+                                <i class="fas fa-users"></i>
+                                <p>Users</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                                <i class="fas fa-th-list"></i>
-                                <p>Sidebar Layouts</p>
-
-                            </a>
-
-                        </li>
+                        <?php endif; ?>
 
                     </ul>
                 </div>
@@ -158,9 +230,8 @@ if (!$user) {
                 <div class="main-header-logo">
                     <!-- Logo Header -->
                     <div class="logo-header" data-background-color="dark">
-                        <a href="../index.html" class="logo">
-                            <img src="../assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
-                                height="20" />
+                        <a href="profile.php" class="logo">
+                            <img src="assets/img/logo_ict.png" alt="navbar brand" class="navbar-brand" height="20" />
                         </a>
                         <div class="nav-toggle">
                             <button class="btn btn-toggle toggle-sidebar">
@@ -210,12 +281,11 @@ if (!$user) {
                                 <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                                     aria-expanded="false">
                                     <div class="avatar-sm">
-                                        <img src="../assets/img/profile.jpg" alt="..."
+                                        <img src="assets/img/user/<?= $user['foto']; ?>" alt="..."
                                             class="avatar-img rounded-circle" />
                                     </div>
                                     <span class="profile-username">
-                                        <span class="op-7">Hi,</span>
-                                        <span class="fw-bold">Hizrian</span>
+                                        <span class="fw-bold"><?= $_SESSION['username']; ?></span>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -223,12 +293,12 @@ if (!$user) {
                                         <li>
                                             <div class="user-box">
                                                 <div class="avatar-lg">
-                                                    <img src="../assets/img/profile.jpg" alt="image profile"
+                                                    <img src="assets/img/user/<?= $user['foto']; ?>" alt="..."
                                                         class="avatar-img rounded" />
                                                 </div>
                                                 <div class="u-text">
-                                                    <h4>Hizrian</h4>
-                                                    <p class="text-muted">hello@example.com</p>
+                                                    <h4><?= $_SESSION['username']; ?></h4>
+                                                    <p class="text-muted"><?= $_SESSION['email']; ?></p>
                                                     <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View
                                                         Profile</a>
                                                 </div>
@@ -237,7 +307,7 @@ if (!$user) {
                                         <li>
 
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Logout</a>
+                                            <a class="dropdown-item" href="logout.php">Logout</a>
                                         </li>
                                     </div>
                                 </ul>
@@ -291,7 +361,7 @@ if (!$user) {
                                     <div class="row">
                                         <div class="col-md-5 d-flex flex-column align-items-center  border-end py-4 ">
                                             <div class="p-4 text-center soft-shadow "
-                                                style="border: 1px solid #e9ecef; border-radius: 20px; width: 100%;background-color: #b8c3c7ff;">
+                                                style="border: 1px solid #e9ecef; border-radius: 20px; width: 100%;background-color:  rgb(242, 251, 255);">
                                                 <img src="<?php echo $gambar; ?>" alt="Foto Profil"
                                                     class="rounded-circle mb-3 shadow-sm"
                                                     style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #ddd;">
@@ -306,7 +376,7 @@ if (!$user) {
 
                                         <div class="col-md-7 py-4 px-md-5">
                                             <div class="p-4 soft-shadow"
-                                                style="border: 1px solid #e9ecef; border-radius: 20px; background-color: #b8c3c7ff;">
+                                                style="border: 1px solid #e9ecef; border-radius: 20px; background-color: rgb(242, 251, 255);">
                                                 <div class="mb-3 border-bottom pb-2">
                                                     <label class="text-muted small d-block">Username</label>
                                                     <span
@@ -362,16 +432,16 @@ if (!$user) {
         <!-- End Custom template -->
     </div>
     <!--   Core JS Files   -->
-    <script src="../assets/js/core/jquery-3.7.1.min.js"></script>
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/core/popper.min.js"></script>
+    <script src="assets/js/core/bootstrap.min.js"></script>
 
     <!-- jQuery Scrollbar -->
-    <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
     <!-- Datatables -->
-    <script src="../assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="assets/js/plugin/datatables/datatables.min.js"></script>
     <!-- Kaiadmin JS -->
-    <script src="../assets/js/kaiadmin.min.js"></script>
+    <script src="assets/js/kaiadmin.min.js"></script>
 
 
 </body>

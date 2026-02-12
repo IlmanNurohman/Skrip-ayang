@@ -364,7 +364,8 @@ $user = mysqli_fetch_assoc($query_user);
                                             <div id="soal-counter" class="fw-bold text-primary">Soal 1 dari 0</div>
                                         </div>
                                         <div class="card-body">
-                                            <form action="simpan_jawaban.php" method="POST" id="formUjian">
+                                            <form action="../../backend/simpan_jawaban.php" method="POST"
+                                                id="formUjian">
                                                 <?php 
                     $nav_numbers = [];
                     $total_soal = mysqli_num_rows($soal);
