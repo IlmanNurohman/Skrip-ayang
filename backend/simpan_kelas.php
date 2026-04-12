@@ -1,5 +1,5 @@
 <?php
-include '../../../backend/koneksi.php';
+include 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama_kelas = mysqli_real_escape_string($conn, $_POST['nama_kelas']);

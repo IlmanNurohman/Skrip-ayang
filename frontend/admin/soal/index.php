@@ -293,7 +293,7 @@ $query = mysqli_query($conn, "SELECT * FROM soal ORDER BY id DESC");
                                                                 <i class="fa fa-edit"></i>
                                                             </button>
 
-                                                            <a href="proses_soal.php?aksi=hapus&id=<?= $s['id'] ?>"
+                                                            <a href="../../../backend/simpan_soal.php?aksi=hapus&id=<?= $s['id'] ?>"
                                                                 class="btn btn-link btn-danger px-2"
                                                                 onclick="return confirm('Hapus soal ini?')">
                                                                 <i class="fa fa-times"></i>
@@ -342,7 +342,8 @@ $query = mysqli_query($conn, "SELECT * FROM soal ORDER BY id DESC");
                                                     aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
-                                                            <form action="proses_soal.php?aksi=update" method="POST">
+                                                            <form action="../../../backend/simpan_soal.php?aksi=update"
+                                                                method="POST">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title">Edit Soal</h5>
                                                                     <button type="button" class="btn-close"

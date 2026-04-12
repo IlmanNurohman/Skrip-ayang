@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../../backend/koneksi.php';
+include 'koneksi.php';
 
 $aksi = $_GET['aksi'] ?? '';
 

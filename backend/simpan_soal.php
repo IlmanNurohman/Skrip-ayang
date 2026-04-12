@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../../backend/koneksi.php';
+include 'koneksi.php';
 
 $aksi = $_GET['aksi'] ?? '';
 
@@ -44,7 +44,7 @@ function execute_query($conn, $sql, $msg) {
     } else {
         $_SESSION['swal'] = ['type' => 'error', 'title' => 'Gagal!', 'text' => $conn->error];
     }
-    header("Location: tampil_soal.php");
+   header("Location: ../frontend/admin/soal/index.php");
     exit;
 }
 ?>

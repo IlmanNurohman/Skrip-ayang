@@ -10,7 +10,6 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,8 +45,6 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
     <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../../assets/css/plugins.min.css" />
     <link rel="stylesheet" href="../../../assets/css/kaiadmin.min.css" />
-
-
 </head>
 
 <body>
@@ -156,8 +153,6 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
                                 </ul>
                             </li>
 
-
-
                             <li class="nav-item topbar-user dropdown hidden-caret">
                                 <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                                     aria-expanded="false">
@@ -226,9 +221,10 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="tambah_user.php" class="btn btn-primary mb-3">
-                                <i class="fa fa-plus"></i> Tambah User
-                            </a>
+                            <button class="btn btn-primary mb-3" data-bs-toggle="modal"
+                                data-bs-target="#modalTambahPeriode">
+                                <i class="fa fa-plus"></i> Tambah Users
+                            </button>
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">Daftar Users</h4>
@@ -256,23 +252,74 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
                                                     <td><?= strtoupper($u['role']) ?></td>
                                                     <td><?= $u['created_at'] ?></td>
                                                     <td>
-                                                        <a href="edit_user.php?id=<?= $u['id'] ?>"
-                                                            class="btn btn-warning btn-sm">Edit</a>
+                                                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#modalEdituser<?= $u['id'] ?>">
+                                                            Edit
+                                                        </button>
                                                         <a href="hapus_user.php?id=<?= $u['id'] ?>"
                                                             class="btn btn-danger btn-sm"
                                                             onclick="return confirm('Hapus akun ini?')">Hapus</a>
                                                     </td>
                                                 </tr>
-                                                <?php endwhile; ?>
 
+                                                <div class="modal fade" id="modalEdituser<?= $u['id'] ?>" tabindex="-1"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <form action="edit_user.php" method="POST">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Edit Users</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <label>Username</label>
+                                                                        <input type="text" name="username"
+                                                                            value="<?= $u['username'] ?>"
+                                                                            class="form-control form-control-sm"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label>Password</label>
+                                                                        <input type="password" name="password"
+                                                                            class="form-control mb-2"
+                                                                            placeholder="Kosongkan jika tidak diubah">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label>Role</label>
+                                                                        <select name="role"
+                                                                            class="form-select form-control-sm">
+                                                                            <option value="siswa"
+                                                                                <?= $u['role']=='siswa'?'selected':'' ?>>
+                                                                                Siswa</option>
+                                                                            <option value="admin"
+                                                                                <?= $u['role']=='admin'?'selected':'' ?>>
+                                                                                Admin</option>
+                                                                            <option value="super_admin"
+                                                                                <?= $u['role']=='super_admin'?'selected':'' ?>>
+                                                                                Super
+                                                                                Admin</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                    <button type="submit" name="simpan"
+                                                                        class="btn btn-primary">Simpan</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php endwhile; ?>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -289,8 +336,41 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
             </footer>
         </div>
 
-
-
+        <div class="modal fade" id="modalTambahPeriode" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="tambah_user.php?aksi=tambah" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Tambah users Baru</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label>Username</label>
+                                <input type="text" name="username" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Role</label>
+                                <select name="role" class="form-select form-control-sm" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="siswa">Calon Siswa</option>
+                                    <option value="admin">Panitia PPDB</option>
+                                    <option value="super_admin">Super Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <!-- End Custom template -->
     </div>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../backend/koneksi.php';
+include 'koneksi.php';
 
 // Pastikan menggunakan user_id dari session login Anda
 if (!isset($_SESSION['user_id'])) {
@@ -134,5 +134,5 @@ if (mysqli_num_rows($check_nilai) > 0) {
 }
 
 // Arahkan ke halaman hasil
-header("Location: ujian.php");
+header("Location: ../frontend/siswa/ujian.php");
 exit;
