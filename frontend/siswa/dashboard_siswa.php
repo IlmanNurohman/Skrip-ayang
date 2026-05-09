@@ -336,6 +336,12 @@ function time_ago($timestamp) {
                             <h6 class="op-7 mb-2">
                                 Halo, selamat datang <?= $_SESSION['username']; ?>
                             </h6>
+                            <p class="mb-0 text-muted">
+                                di sistem penerimaan peserta didik baru SMA ICT Pakenjeng . Apabila
+                                ada pertanyaan atau kendala, silakan hubungi admin melalui menu WhatsApp yang tersedia
+                                di quik action di pojok atas.
+                                Terimakasih telah menggunakan sistem ini, semoga proses pendaftaran berjalan lancar!
+                            </p>
 
                         </div>
                     </div>

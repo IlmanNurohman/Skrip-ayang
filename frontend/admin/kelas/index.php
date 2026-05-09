@@ -41,6 +41,17 @@ $query = mysqli_query($conn, "SELECT username, foto FROM users WHERE id='$id'");
 $user  = mysqli_fetch_assoc($query);
 
 $query = mysqli_query($conn, "SELECT * FROM kelas ORDER BY nama_kelas ASC");
+
+define('SECRET_KEY', 'e7b434689dac661d0c8fb8d192a36fec76649fc82c3f83e80d17c38d9c3d7320');
+define('SECRET_IV', '2dee9400f5a55a4cbce6e5ed27f615e2');
+
+function decryptData($string) {
+    if ($string === null || $string === '') return '';
+    $encrypt_method = "AES-256-CBC";
+    $key = hash('sha256', SECRET_KEY);
+    $iv  = substr(hash('sha256', SECRET_IV), 0, 16);
+    return openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+}
 ?>
 
 
@@ -309,6 +320,12 @@ $query = mysqli_query($conn, "SELECT * FROM kelas ORDER BY nama_kelas ASC");
 
                                                     <td>
                                                         <div class="form-button-action">
+
+                                                            <button class="btn btn-link btn-info px-1 btn-view-siswa"
+                                                                data-id="<?= $row['id']; ?>"
+                                                                data-nama="<?= $row['nama_kelas']; ?>">
+                                                                <i class="fa fa-eye"></i>
+                                                            </button>
                                                             <button class="btn btn-link btn-primary px-1"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#modalEdit<?= $row['id']; ?>">
@@ -414,6 +431,37 @@ $query = mysqli_query($conn, "SELECT * FROM kelas ORDER BY nama_kelas ASC");
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="modalViewSiswa" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Daftar Siswa - <span id="namaKelas"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="loading">Loading...</div>
+
+                    <table class="table table-striped table-hover" id="tableSiswa">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Nilai</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultSiswa"></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <!--   Core JS Files   -->
     <script src="../../../assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="../../../assets/js/core/popper.min.js"></script>
@@ -511,6 +559,61 @@ $query = mysqli_query($conn, "SELECT * FROM kelas ORDER BY nama_kelas ASC");
     });
     </script>
 
+    <script>
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-view-siswa');
+        if (!btn) return;
+
+        let id = btn.getAttribute('data-id');
+        let nama = btn.getAttribute('data-nama');
+
+        document.getElementById('namaKelas').innerText = nama;
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('loading').innerText = 'Loading...';
+        document.getElementById('tableSiswa').classList.add('d-none');
+        document.getElementById('resultSiswa').innerHTML = '';
+
+        // Buka modal dulu
+        const modal = new bootstrap.Modal(document.getElementById('modalViewSiswa'));
+        modal.show();
+
+        // Gunakan path relatif
+        fetch('get_siswa.php?id_kelas=' + id)
+            .then(res => {
+                if (!res.ok) throw new Error('HTTP error: ' + res.status);
+                return res.text();
+            })
+            .then(text => {
+                console.log('RAW:', text);
+                return JSON.parse(text);
+            })
+            .then(data => {
+                let html = '';
+                if (data.length === 0) {
+                    html = `<tr><td colspan="5" class="text-center">Belum ada siswa</td></tr>`;
+                } else {
+                    data.forEach((item, index) => {
+                        html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.nama}</td>
+                            <td>${item.email}</td>
+                            <td>${item.nilai}</td>
+                            <td>${item.status}</td>
+                        </tr>`;
+                    });
+                }
+                document.getElementById('resultSiswa').innerHTML = html;
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('tableSiswa').classList.remove('d-none');
+            })
+            .catch(err => {
+                console.error('ERROR:', err);
+                document.getElementById('loading').innerHTML =
+                    '<span class="text-danger">Gagal load data: ' + err.message + '</span>';
+            });
+    });
+    </script>
 </body>
 
 </html>
