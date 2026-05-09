@@ -327,13 +327,19 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                 <label class="mb-3"><b>Biodata Siswa</b></label>
 
                                                 <div class="form-group">
-                                                    <label>Nama Lengkap</label>
+                                                    <label>Nama Lengkap<span class="text-danger">*</span></label>
                                                     <input type="text" name="nama_lengkap"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>NIK</label>
+                                                    <label>NISN<span class="text-danger">*</span></label>
+                                                    <input type="number" name="nisn"
+                                                        class="form-control form-control-sm" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>NIK<span class="text-danger">*</span></label>
                                                     <input type="text" name="nik" class="form-control form-control-sm"
                                                         required>
                                                 </div>
@@ -345,19 +351,19 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Tanggal Lahir</label>
+                                                    <label>Tanggal Lahir<span class="text-danger">*</span></label>
                                                     <input type="date" name="tgl_lahir"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>No HP</label>
+                                                    <label>No HP<span class="text-danger">*</span></label>
                                                     <input type="text" name="no_hp" class="form-control form-control-sm"
                                                         required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Jenis Kelamin</label>
+                                                    <label>Jenis Kelamin<span class="text-danger">*</span></label>
                                                     <select name="jenis_kelamin" class="form-select form-control-sm"
                                                         required>
                                                         <option value="">-- Pilih --</option>
@@ -367,7 +373,7 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Agama</label>
+                                                    <label>Agama<span class="text-danger">*</span></label>
                                                     <select name="agama" class="form-select form-control-sm" required>
                                                         <option value="">-- Pilih --</option>
                                                         <option value="Islam">Islam</option>
@@ -379,66 +385,105 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Asal Sekolah</label>
+                                                    <label>Asal Sekolah<span class="text-danger">*</span></label>
                                                     <input type="text" name="asal_sekolah"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Alamat</label>
+                                                    <label>Alamat Asal Sekolah<span class="text-danger">*</span></label>
+                                                    <input type="text" name="alamat_asal_sekolah"
+                                                        class="form-control form-control-sm" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Alamat<span class="text-danger">*</span></label>
                                                     <textarea name="alamat" rows="3"
                                                         class="form-control form-control-sm" required></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6 col-lg-4">
-                                                <label class="mb-3"><b>Data Orang Tua</b></label>
+                                                <label class="mb-3"><b>Data Orang Tua/Wali</b></label>
 
                                                 <div class="form-group">
-                                                    <label>Nama Ayah</label>
+                                                    <label>Nama Ayah<span class="text-danger">*</span></label>
                                                     <input type="text" name="nama_ayah"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Pendidikan Ayah</label>
+                                                    <label>Nik Ayah<span class="text-danger">*</span></label>
+                                                    <input type="number" name="nik_ayah"
+                                                        class="form-control form-control-sm" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Tanggal Lahir Ayah<span class="text-danger">*</span></label>
+                                                    <input type="date" name="tanggal_lahir_ortu"
+                                                        class="form-control form-control-sm" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Pendidikan Ayah<span class="text-danger">*</span></label>
                                                     <input type="text" name="pendidikan_ayah"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Pekerjaan Ayah</label>
+                                                    <label>Pekerjaan Ayah<span class="text-danger">*</span></label>
                                                     <input type="text" name="pekerjaan_ayah"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Penghasilan Ayah (per bulan)</label>
+                                                    <label>Penghasilan Ayah (per bulan)<span
+                                                            class="text-danger">*</span></label>
                                                     <input type="number" name="penghasilan_ayah"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Nama Ibu</label>
+                                                    <label>Nama Ibu<span class="text-danger">*</span></label>
                                                     <input type="text" name="nama_ibu"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Pendidikan</label>
+                                                    <label>Tanggal Lahir Ibu<span class="text-danger">*</span></label>
+                                                    <input type="date" name="tanggal_lahir_ortu"
+                                                        class="form-control form-control-sm" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Nik Ibu<span class="text-danger">*</span></label>
+                                                    <input type="number" name="nik_ibu"
+                                                        class="form-control form-control-sm" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Pendidikan Ibu<span class="text-danger">*</span></label>
                                                     <input type="text" name="pendidikan_ibu"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Pekerjaan Ibu</label>
+                                                    <label>Pekerjaan Ibu<span class="text-danger">*</span></label>
                                                     <input type="text" name="pekerjaan_ibu"
                                                         class="form-control form-control-sm" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Penghasilan Ibu (per bulan)</label>
+                                                    <label>Penghasilan Ibu (per bulan)<span
+                                                            class="text-danger">*</span></label>
                                                     <input type="number" name="penghasilan_ibu"
+                                                        class="form-control form-control-sm" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Alamat Orangtua/wali<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" name="alamat_ortu"
                                                         class="form-control form-control-sm" required>
                                                 </div>
                                             </div>
@@ -447,21 +492,33 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                 <label class="mb-3"><b>File Pendukung</b></label>
 
                                                 <div class="form-group">
-                                                    <label>Foto Ijazah</label>
+                                                    <label>Ijazah<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_ijazah"
-                                                        class="form-control form-control-sm" accept="image/*" required>
+                                                        class="form-control form-control-sm" accept="pdf/*" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Foto Raport</label>
+                                                    <label>Raport<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_raport"
-                                                        class="form-control form-control-sm" accept="image/*" required>
+                                                        class="form-control form-control-sm" accept="pdf/*" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Foto Kartu Keluarga</label>
+                                                    <label>Kartu Keluarga<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_kk"
-                                                        class="form-control form-control-sm" accept="image/*" required>
+                                                        class="form-control form-control-sm" accept="pdf/*" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>KTP Ayah<span class="text-danger">*</span></label>
+                                                    <input type="file" name="foto_ktp_ortu"
+                                                        class=" form-control form-control-sm" accept="pdf/*" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>KTP Ibu<span class="text-danger">*</span></label>
+                                                    <input type="file" name="foto_ktp_ortu"
+                                                        class="form-control form-control-sm" accept="pdf/*" required>
                                                 </div>
 
                                             </div>
