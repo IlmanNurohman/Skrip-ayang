@@ -514,7 +514,7 @@
 
         <div class="register-heading">
             <h1>Buat akun baru ✨</h1>
-            <p>Isi data di bawah untuk mendaftar sebagai siswa</p>
+            <p>Isi data di bawah untuk mendaftar sebagai calon siswa</p>
         </div>
 
         <!-- Step indicator -->

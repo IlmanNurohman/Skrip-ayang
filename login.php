@@ -380,8 +380,8 @@
         <div class="divider"></div>
 
         <div class="login-heading">
-            <h1>Selamat datang 👋</h1>
-            <p>Masuk untuk melanjutkan ke akun Anda</p>
+            <h1>Selamat datang di Portal PPDB 👋</h1>
+            <p>Masuk untuk melanjutkan ke akun Anda dan melakukan pendaftaran PPDB</p>
         </div>
 
         <form action="backend/proses_login.php" method="POST">
@@ -415,7 +415,12 @@
 
         <p class="footer-note">
             Belum punya akun?
-            <a href="register.php">Daftar di sini</a>
+            <a href="register.php">Daftar di sini</a> <br>
+            Jika ada kendala, jangan ragu untuk
+            <a
+                href="https://wa.me/6282324279284?text=Halo%20Admin,%20saya%20ingin%20bertanya%20mengenai%20pendaftaran.">Hubungi
+                admin.</a>
+
         </p>
 
     </div>
