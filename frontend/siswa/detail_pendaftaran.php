@@ -1,7 +1,7 @@
 <?php
 session_start();
 // PERBAIKAN: Path disesuaikan menjadi dua tingkat (../..)
-include '../../backend/koneksi.php'; 
+include '../../backend/koneksi.php';
 
 // 1. Proteksi Siswa
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'siswa') {
@@ -19,6 +19,7 @@ $id_user = $_SESSION['user_id'];
 // 2. Ambil data pendaftaran (Gunakan variabel $conn sesuai koneksi.php Anda)
 $query = mysqli_query($conn, "SELECT * FROM pendaftaran WHERE id_user = '$id_user'");
 
+
 if (!$query) {
     die("Query Error: " . mysqli_error($conn));
 }
@@ -35,13 +36,17 @@ $user = mysqli_fetch_assoc($query_user);
 define('SECRET_KEY', 'e7b434689dac661d0c8fb8d192a36fec76649fc82c3f83e80d17c38d9c3d7320');
 define('SECRET_IV', '2dee9400f5a55a4cbce6e5ed27f615e2');
 
-function decryptData($string) {
+function decryptData($string)
+{
     if ($string === null || $string === '') return '';
     $encrypt_method = "AES-256-CBC";
     $key = hash('sha256', SECRET_KEY);
     $iv  = substr(hash('sha256', SECRET_IV), 0, 16);
     return openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
 }
+
+$cek_daftar = mysqli_fetch_assoc($query);
+
 
 ?>
 
@@ -136,12 +141,14 @@ function decryptData($string) {
                                 <p>Pendaftaran</p>
                             </a>
                         </li>
+                        <?php if ($cek_daftar): ?>
                         <li class="nav-item">
                             <a href="ujian.php">
-                                <i class="fas fa-th-list"></i>
+                                <i class=" fas fa-th-list"></i>
                                 <p>Seleksi</p>
                             </a>
                         </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <a href="hasil_pendaftaran.php">
                                 <i class="fas fa-pen-square"></i>
@@ -329,6 +336,14 @@ function decryptData($string) {
 
                                                         </tr>
                                                         <tr>
+                                                            <th>Nik Ayah / Ibu</th>
+                                                            <td>
+                                                                <?= decryptData($data['nik_ayah']) ?> /
+                                                                <?= decryptData($data['nik_ibu']) ?>
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
                                                             <th>Pekerjaan Ayah / Ibu</th>
                                                             <td>
                                                                 <?= decryptData($data['pekerjaan_ayah']) ?> /
@@ -344,6 +359,7 @@ function decryptData($string) {
                                                             </td>
 
                                                         </tr>
+
                                                         <tr>
                                                             <th>Penghasilan Ayah / Ibu</th>
                                                             <td>
@@ -353,8 +369,13 @@ function decryptData($string) {
                                                                 Rp
                                                                 <?= number_format((int) decryptData($data['penghasilan_ibu']), 0, ',', '.') ?>
                                                             </td>
+                                                        </tr>
 
-
+                                                        <tr>
+                                                            <th>Alamat Orang Tua</th>
+                                                            <td>
+                                                                <?= decryptData($data['alamat_ortu']) ?>
+                                                            </td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -369,16 +390,21 @@ function decryptData($string) {
                                                 <div class="card-body text-center">
                                                     <button type="button" class="btn btn-outline-info mb-2 w-100"
                                                         data-bs-toggle="modal" data-bs-target="#modalIjazah">
-                                                        <i class="fas fa-file-image"></i> Lihat Ijazah
+                                                        <i class="fas fa-file-pdf"></i> Lihat Ijazah
                                                     </button>
                                                     <button type="button" class="btn btn-outline-info mb-2 w-100"
                                                         data-bs-toggle="modal" data-bs-target="#modalRaport">
-                                                        <i class="fas fa-file-image"></i> Lihat Raport
+                                                        <i class="fas fa-file-pdf"></i> Lihat Raport
                                                     </button>
                                                     <button type="button" class="btn btn-outline-info mb-2 w-100"
                                                         data-bs-toggle="modal" data-bs-target="#modalKK">
-                                                        <i class="fas fa-file-image"></i> Lihat Kartu Keluarga
+                                                        <i class="fas fa-file-pdf"></i> Lihat Kartu Keluarga
                                                     </button>
+                                                    <button type="button" class="btn btn-outline-info mb-2 w-100"
+                                                        data-bs-toggle="modal" data-bs-target="#modalKTPOrtu">
+                                                        <i class="fas fa-file-pdf"></i> Lihat KTP Orang Tua
+                                                    </button>
+
                                                 </div>
                                             </div>
                                             <div class="card mt-4">
@@ -388,29 +414,29 @@ function decryptData($string) {
                                                 </div>
                                                 <div class="card-body text-center">
 
-                                                    <?php 
-                                     $status = strtolower($data['status']);
-                                     if ($status == 'lulus' || $status == 'diterima') {
-                                     echo '<div class="alert alert-success mb-0">
+                                                    <?php
+                                                    $status = strtolower($data['status']);
+                                                    if ($status == 'lulus' || $status == 'diterima') {
+                                                        echo '<div class="alert alert-success mb-0">
                                     <i class="fas fa-check-circle fa-2x mb-2"></i><br>
                                     <b style="font-size: 1.2rem;">DITERIMA / LULUS</b>
                                     </div>';
-                                    } elseif ($status == 'tidak lulus' || $status == 'ditolak') {
-                                    echo '<div class="alert alert-danger mb-0">
+                                                    } elseif ($status == 'tidak lulus' || $status == 'ditolak') {
+                                                        echo '<div class="alert alert-danger mb-0">
                                     <i class="fas fa-times-circle fa-2x mb-2"></i><br>
                                     <b style="font-size: 1.2rem;">DITOLAK / TIDAK LULUS</b>
                                     </div>';
-                                    } else {
-                                    echo '<div class="alert alert-warning mb-0">
+                                                    } else {
+                                                        echo '<div class="alert alert-warning mb-0">
                                     <i class="fas fa-clock fa-2x mb-2"></i><br>
                                     <b style="font-size: 1.2rem;">PENDING / PROSES</b>
                                     </div>';
-                                    }
-                                    ?>
+                                                    }
+                                                    ?>
                                                     <div class="mt-4 text-start">
                                                         <label class="fw-bold text-uppercase small">Catatan</label>
                                                         <div class="p-3 bg-light border rounded shadow-sm">
-                                                            <?php if(!empty($data['catatan_admin'])): ?>
+                                                            <?php if (!empty($data['catatan_admin'])): ?>
                                                             <p class="mb-0 italic text-dark">
                                                                 "<?= $data['catatan_admin'] ?>"</p>
                                                             <?php else: ?>
@@ -420,13 +446,8 @@ function decryptData($string) {
                                                         </div>
                                                     </div>
 
-
-
                                                 </div>
-
                                             </div>
-
-
 
                                         </div>
                                     </div>
@@ -442,31 +463,36 @@ function decryptData($string) {
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Foto Ijazah - <?= $data['nama_lengkap'] ?>
+                                        <h5 class="modal-title">Ijazah - <?= decryptData($data['nama_lengkap']) ?>
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
-                                        <img src="../../<?= $data['foto_ijazah'] ?>" class="img-fluid rounded"
-                                            alt="Ijazah">
+                                        <iframe src="../../backend/<?= $data['foto_ijazah'] ?>" width="100%"
+                                            height="500px"></iframe>
+
+
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+
+
                         <div class="modal fade" id="modalRaport" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Foto Raport - <?= $data['nama_lengkap'] ?>
+                                        <h5 class="modal-title">Raport - <?= decryptData($data['nama_lengkap']) ?>
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
-                                        <img src="../../<?= $data['foto_raport'] ?>" class="img-fluid rounded"
-                                            alt="Raport">
+                                        <iframe src="../../backend/<?= $data['foto_raport'] ?>" width="100%"
+                                            height="500px"></iframe>
                                     </div>
                                 </div>
                             </div>
@@ -476,13 +502,33 @@ function decryptData($string) {
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Foto KK - <?= $data['nama_lengkap'] ?>
+                                        <h5 class="modal-title">Kartu Keluarga -
+                                            <?= decryptData($data['nama_lengkap']) ?>
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
-                                        <img src="../../<?= $data['foto_kk'] ?>" class="img-fluid rounded" alt="KK">
+                                        <iframe src="../../backend/<?= $data['foto_kk'] ?>" width="100%"
+                                            height="500px"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="modalKTPOrtu" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">KTP Orang Tua -
+                                            <?= decryptData($data['nama_lengkap']) ?>
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <iframe src="../../backend/<?= $data['ktp_ortu'] ?>" width="100%"
+                                            height="500px"></iframe>
                                     </div>
                                 </div>
                             </div>
@@ -497,8 +543,7 @@ function decryptData($string) {
                     <div class="container-fluid d-flex justify-content-center">
 
                         <div class="copyright ">
-                            2025, made with <i class="fa fa-heart heart text-danger"></i> by
-                            <a href="">Rahayu</a>
+                            2026, by Rahayu
                         </div>
 
                     </div>

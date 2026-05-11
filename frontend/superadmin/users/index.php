@@ -22,23 +22,23 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
     <!-- Fonts and icons -->
     <script src="../../../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
-    WebFont.load({
-        google: {
-            families: ["Public Sans:300,400,500,600,700"]
-        },
-        custom: {
-            families: [
-                "Font Awesome 5 Solid",
-                "Font Awesome 5 Regular",
-                "Font Awesome 5 Brands",
-                "simple-line-icons",
-            ],
-            urls: ["../../../assets/css/fonts.min.css"],
-        },
-        active: function() {
-            sessionStorage.fonts = true;
-        },
-    });
+        WebFont.load({
+            google: {
+                families: ["Public Sans:300,400,500,600,700"]
+            },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["../../../assets/css/fonts.min.css"],
+            },
+            active: function() {
+                sessionStorage.fonts = true;
+            },
+        });
     </script>
 
     <!-- CSS Files -->
@@ -245,74 +245,75 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
                                             <tbody>
 
 
-                                                <?php $no=1; while ($u = mysqli_fetch_assoc($data)) : ?>
-                                                <tr>
-                                                    <td><?= $no++ ?></td>
-                                                    <td><?= $u['username'] ?></td>
-                                                    <td><?= strtoupper($u['role']) ?></td>
-                                                    <td><?= $u['created_at'] ?></td>
-                                                    <td>
-                                                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                            data-bs-target="#modalEdituser<?= $u['id'] ?>">
-                                                            Edit
-                                                        </button>
-                                                        <a href="hapus_user.php?id=<?= $u['id'] ?>"
-                                                            class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Hapus akun ini?')">Hapus</a>
-                                                    </td>
-                                                </tr>
+                                                <?php $no = 1;
+                                                while ($u = mysqli_fetch_assoc($data)) : ?>
+                                                    <tr>
+                                                        <td><?= $no++ ?></td>
+                                                        <td><?= $u['username'] ?></td>
+                                                        <td><?= strtoupper($u['role']) ?></td>
+                                                        <td><?= $u['created_at'] ?></td>
+                                                        <td>
+                                                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                                data-bs-target="#modalEdituser<?= $u['id'] ?>">
+                                                                Edit
+                                                            </button>
+                                                            <a href="hapus_user.php?id=<?= $u['id'] ?>"
+                                                                class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('Hapus akun ini?')">Hapus</a>
+                                                        </td>
+                                                    </tr>
 
-                                                <div class="modal fade" id="modalEdituser<?= $u['id'] ?>" tabindex="-1"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <form action="edit_user.php" method="POST">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Edit Users</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <div class="mb-3">
-                                                                        <label>Username</label>
-                                                                        <input type="text" name="username"
-                                                                            value="<?= $u['username'] ?>"
-                                                                            class="form-control form-control-sm"
-                                                                            required>
+                                                    <div class="modal fade" id="modalEdituser<?= $u['id'] ?>" tabindex="-1"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <form action="edit_user.php" method="POST">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Edit Users</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"></button>
                                                                     </div>
-                                                                    <div class="mb-3">
-                                                                        <label>Password</label>
-                                                                        <input type="password" name="password"
-                                                                            class="form-control mb-2"
-                                                                            placeholder="Kosongkan jika tidak diubah">
+                                                                    <div class="modal-body">
+                                                                        <div class="mb-3">
+                                                                            <label>Username</label>
+                                                                            <input type="text" name="username"
+                                                                                value="<?= $u['username'] ?>"
+                                                                                class="form-control form-control-sm"
+                                                                                required>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label>Password</label>
+                                                                            <input type="password" name="password"
+                                                                                class="form-control mb-2"
+                                                                                placeholder="Kosongkan jika tidak diubah">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label>Role</label>
+                                                                            <select name="role"
+                                                                                class="form-select form-control-sm">
+                                                                                <option value="siswa"
+                                                                                    <?= $u['role'] == 'siswa' ? 'selected' : '' ?>>
+                                                                                    Siswa</option>
+                                                                                <option value="admin"
+                                                                                    <?= $u['role'] == 'admin' ? 'selected' : '' ?>>
+                                                                                    Admin</option>
+                                                                                <option value="super_admin"
+                                                                                    <?= $u['role'] == 'super_admin' ? 'selected' : '' ?>>
+                                                                                    Super
+                                                                                    Admin</option>
+                                                                            </select>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="mb-3">
-                                                                        <label>Role</label>
-                                                                        <select name="role"
-                                                                            class="form-select form-control-sm">
-                                                                            <option value="siswa"
-                                                                                <?= $u['role']=='siswa'?'selected':'' ?>>
-                                                                                Siswa</option>
-                                                                            <option value="admin"
-                                                                                <?= $u['role']=='admin'?'selected':'' ?>>
-                                                                                Admin</option>
-                                                                            <option value="super_admin"
-                                                                                <?= $u['role']=='super_admin'?'selected':'' ?>>
-                                                                                Super
-                                                                                Admin</option>
-                                                                        </select>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Batal</button>
+                                                                        <button type="submit" name="simpan"
+                                                                            class="btn btn-primary">Simpan</button>
                                                                     </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                        data-bs-dismiss="modal">Batal</button>
-                                                                    <button type="submit" name="simpan"
-                                                                        class="btn btn-primary">Simpan</button>
-                                                                </div>
-                                                            </form>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
                                                 <?php endwhile; ?>
                                             </tbody>
                                         </table>
@@ -328,8 +329,7 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
                 <div class="container-fluid d-flex justify-content-center">
 
                     <div class="copyright ">
-                        2025, made with <i class="fa fa-heart heart text-danger"></i> by
-                        <a href="">Rahayu</a>
+                        2026, by Rahayu
                     </div>
 
                 </div>
@@ -387,61 +387,61 @@ $data = mysqli_query($conn, "SELECT id, username, role, created_at FROM users OR
     <script src="../../../assets/js/kaiadmin.min.js"></script>
 
     <script>
-    $(document).ready(function() {
-        $("#basic-datatables").DataTable({});
+        $(document).ready(function() {
+            $("#basic-datatables").DataTable({});
 
-        $("#multi-filter-select").DataTable({
-            pageLength: 5,
-            initComplete: function() {
-                this.api()
-                    .columns()
-                    .every(function() {
-                        var column = this;
-                        var select = $(
-                                '<select class="form-select"><option value=""></option></select>'
-                            )
-                            .appendTo($(column.footer()).empty())
-                            .on("change", function() {
-                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+            $("#multi-filter-select").DataTable({
+                pageLength: 5,
+                initComplete: function() {
+                    this.api()
+                        .columns()
+                        .every(function() {
+                            var column = this;
+                            var select = $(
+                                    '<select class="form-select"><option value=""></option></select>'
+                                )
+                                .appendTo($(column.footer()).empty())
+                                .on("change", function() {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
 
-                                column
-                                    .search(val ? "^" + val + "$" : "", true, false)
-                                    .draw();
-                            });
+                                    column
+                                        .search(val ? "^" + val + "$" : "", true, false)
+                                        .draw();
+                                });
 
-                        column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function(d, j) {
-                                select.append(
-                                    '<option value="' + d + '">' + d + "</option>"
-                                );
-                            });
-                    });
-            },
+                            column
+                                .data()
+                                .unique()
+                                .sort()
+                                .each(function(d, j) {
+                                    select.append(
+                                        '<option value="' + d + '">' + d + "</option>"
+                                    );
+                                });
+                        });
+                },
+            });
+
+            // Add Row
+            $("#add-row").DataTable({
+                pageLength: 5,
+            });
+
+            var action =
+                '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+            $("#addRowButton").click(function() {
+                $("#add-row")
+                    .dataTable()
+                    .fnAddData([
+                        $("#addName").val(),
+                        $("#addPosition").val(),
+                        $("#addOffice").val(),
+                        action,
+                    ]);
+                $("#addRowModal").modal("hide");
+            });
         });
-
-        // Add Row
-        $("#add-row").DataTable({
-            pageLength: 5,
-        });
-
-        var action =
-            '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-        $("#addRowButton").click(function() {
-            $("#add-row")
-                .dataTable()
-                .fnAddData([
-                    $("#addName").val(),
-                    $("#addPosition").val(),
-                    $("#addOffice").val(),
-                    action,
-                ]);
-            $("#addRowModal").modal("hide");
-        });
-    });
     </script>
 </body>
 
