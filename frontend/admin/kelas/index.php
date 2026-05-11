@@ -45,7 +45,8 @@ $query = mysqli_query($conn, "SELECT * FROM kelas ORDER BY nama_kelas ASC");
 define('SECRET_KEY', 'e7b434689dac661d0c8fb8d192a36fec76649fc82c3f83e80d17c38d9c3d7320');
 define('SECRET_IV', '2dee9400f5a55a4cbce6e5ed27f615e2');
 
-function decryptData($string) {
+function decryptData($string)
+{
     if ($string === null || $string === '') return '';
     $encrypt_method = "AES-256-CBC";
     $key = hash('sha256', SECRET_KEY);
@@ -71,23 +72,23 @@ function decryptData($string) {
     <!-- Fonts and icons -->
     <script src="../../../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
-    WebFont.load({
-        google: {
-            families: ["Public Sans:300,400,500,600,700"]
-        },
-        custom: {
-            families: [
-                "Font Awesome 5 Solid",
-                "Font Awesome 5 Regular",
-                "Font Awesome 5 Brands",
-                "simple-line-icons",
-            ],
-            urls: ["../../../assets/css/fonts.min.css"],
-        },
-        active: function() {
-            sessionStorage.fonts = true;
-        },
-    });
+        WebFont.load({
+            google: {
+                families: ["Public Sans:300,400,500,600,700"]
+            },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["../../../assets/css/fonts.min.css"],
+            },
+            active: function() {
+                sessionStorage.fonts = true;
+            },
+        });
     </script>
 
     <!-- CSS Files -->
@@ -308,75 +309,75 @@ function decryptData($string) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php 
-                        $no = 1; 
-                        while ($row = mysqli_fetch_assoc($query)) : 
-                        ?>
+                                                <?php
+                                                $no = 1;
+                                                while ($row = mysqli_fetch_assoc($query)) :
+                                                ?>
 
-                                                <tr>
-                                                    <td><?= $no++ ?></td>
-                                                    <td><?= $row['nama_kelas']; ?></td>
-                                                    <td><?= $row['kuota']; ?> Siswa</td>
+                                                    <tr>
+                                                        <td><?= $no++ ?></td>
+                                                        <td><?= $row['nama_kelas']; ?></td>
+                                                        <td><?= $row['kuota']; ?> Siswa</td>
 
-                                                    <td>
-                                                        <div class="form-button-action">
+                                                        <td>
+                                                            <div class="form-button-action">
 
-                                                            <button class="btn btn-link btn-info px-1 btn-view-siswa"
-                                                                data-id="<?= $row['id']; ?>"
-                                                                data-nama="<?= $row['nama_kelas']; ?>">
-                                                                <i class="fa fa-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-link btn-primary px-1"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalEdit<?= $row['id']; ?>">
-                                                                <i class="fa fa-edit"></i>
-                                                            </button>
+                                                                <button class="btn btn-link btn-info px-1 btn-view-siswa"
+                                                                    data-id="<?= $row['id']; ?>"
+                                                                    data-nama="<?= $row['nama_kelas']; ?>">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </button>
+                                                                <button class="btn btn-link btn-primary px-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modalEdit<?= $row['id']; ?>">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </button>
 
-                                                            <a href="index_kelas.php?hapus=<?= $row['id']; ?>"
-                                                                class="btn btn-link btn-danger px-1"
-                                                                onclick="return confirm('Hapus kelas ini?')">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <div class="modal fade" id="modalEdit<?= $row['id']; ?>" tabindex="-1"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Edit Kelas:
-                                                                    <?= $row['nama_kelas']; ?></h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                <a href="index_kelas.php?hapus=<?= $row['id']; ?>"
+                                                                    class="btn btn-link btn-danger px-1"
+                                                                    onclick="return confirm('Hapus kelas ini?')">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </a>
                                                             </div>
-                                                            <form method="POST">
-                                                                <div class="modal-body">
-                                                                    <input type="hidden" name="id_kelas"
-                                                                        value="<?= $row['id']; ?>">
-                                                                    <div class="form-group">
-                                                                        <label>Nama Kelas</label>
-                                                                        <input type="text" name="nama_kelas"
-                                                                            class="form-control"
-                                                                            value="<?= $row['nama_kelas']; ?>" required>
-                                                                    </div>
-                                                                    <div class="form-group mt-2">
-                                                                        <label>Kuota Siswa</label>
-                                                                        <input type="number" name="kuota"
-                                                                            class="form-control"
-                                                                            value="<?= $row['kuota']; ?>" required>
-                                                                    </div>
+                                                        </td>
+                                                    </tr>
+                                                    <div class="modal fade" id="modalEdit<?= $row['id']; ?>" tabindex="-1"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Edit Kelas:
+                                                                        <?= $row['nama_kelas']; ?></h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                        data-bs-dismiss="modal">Batal</button>
-                                                                    <button type="submit" name="edit_kelas"
-                                                                        class="btn btn-primary">Perbarui</button>
-                                                                </div>
-                                                            </form>
+                                                                <form method="POST">
+                                                                    <div class="modal-body">
+                                                                        <input type="hidden" name="id_kelas"
+                                                                            value="<?= $row['id']; ?>">
+                                                                        <div class="form-group">
+                                                                            <label>Nama Kelas</label>
+                                                                            <input type="text" name="nama_kelas"
+                                                                                class="form-control"
+                                                                                value="<?= $row['nama_kelas']; ?>" required>
+                                                                        </div>
+                                                                        <div class="form-group mt-2">
+                                                                            <label>Kuota Siswa</label>
+                                                                            <input type="number" name="kuota"
+                                                                                class="form-control"
+                                                                                value="<?= $row['kuota']; ?>" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Batal</button>
+                                                                        <button type="submit" name="edit_kelas"
+                                                                            class="btn btn-primary">Perbarui</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
                                                 <?php endwhile; ?>
                                             </tbody>
                                         </table>
@@ -393,8 +394,7 @@ function decryptData($string) {
                 <div class="container-fluid d-flex justify-content-center">
 
                     <div class="copyright ">
-                        2025, made with <i class="fa fa-heart heart text-danger"></i> by
-                        <a href="">Rahayu</a>
+                        2026, by Rahayu
                     </div>
 
                 </div>
@@ -502,98 +502,98 @@ function decryptData($string) {
     <script src="../../../assets/js/kaiadmin.min.js"></script>
 
     <script>
-    $(document).ready(function() {
-        $("#basic-datatables").DataTable({});
+        $(document).ready(function() {
+            $("#basic-datatables").DataTable({});
 
-        $("#multi-filter-select").DataTable({
-            pageLength: 5,
-            initComplete: function() {
-                this.api()
-                    .columns()
-                    .every(function() {
-                        var column = this;
-                        var select = $(
-                                '<select class="form-select"><option value=""></option></select>'
-                            )
-                            .appendTo($(column.footer()).empty())
-                            .on("change", function() {
-                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+            $("#multi-filter-select").DataTable({
+                pageLength: 5,
+                initComplete: function() {
+                    this.api()
+                        .columns()
+                        .every(function() {
+                            var column = this;
+                            var select = $(
+                                    '<select class="form-select"><option value=""></option></select>'
+                                )
+                                .appendTo($(column.footer()).empty())
+                                .on("change", function() {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
 
-                                column
-                                    .search(val ? "^" + val + "$" : "", true, false)
-                                    .draw();
-                            });
+                                    column
+                                        .search(val ? "^" + val + "$" : "", true, false)
+                                        .draw();
+                                });
 
-                        column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function(d, j) {
-                                select.append(
-                                    '<option value="' + d + '">' + d + "</option>"
-                                );
-                            });
-                    });
-            },
+                            column
+                                .data()
+                                .unique()
+                                .sort()
+                                .each(function(d, j) {
+                                    select.append(
+                                        '<option value="' + d + '">' + d + "</option>"
+                                    );
+                                });
+                        });
+                },
+            });
+
+            // Add Row
+            $("#add-row").DataTable({
+                pageLength: 5,
+            });
+
+            var action =
+                '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+            $("#addRowButton").click(function() {
+                $("#add-row")
+                    .dataTable()
+                    .fnAddData([
+                        $("#addName").val(),
+                        $("#addPosition").val(),
+                        $("#addOffice").val(),
+                        action,
+                    ]);
+                $("#addRowModal").modal("hide");
+            });
         });
-
-        // Add Row
-        $("#add-row").DataTable({
-            pageLength: 5,
-        });
-
-        var action =
-            '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-        $("#addRowButton").click(function() {
-            $("#add-row")
-                .dataTable()
-                .fnAddData([
-                    $("#addName").val(),
-                    $("#addPosition").val(),
-                    $("#addOffice").val(),
-                    action,
-                ]);
-            $("#addRowModal").modal("hide");
-        });
-    });
     </script>
 
     <script>
-    document.addEventListener('click', function(e) {
-        const btn = e.target.closest('.btn-view-siswa');
-        if (!btn) return;
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn-view-siswa');
+            if (!btn) return;
 
-        let id = btn.getAttribute('data-id');
-        let nama = btn.getAttribute('data-nama');
+            let id = btn.getAttribute('data-id');
+            let nama = btn.getAttribute('data-nama');
 
-        document.getElementById('namaKelas').innerText = nama;
-        document.getElementById('loading').style.display = 'block';
-        document.getElementById('loading').innerText = 'Loading...';
-        document.getElementById('tableSiswa').classList.add('d-none');
-        document.getElementById('resultSiswa').innerHTML = '';
+            document.getElementById('namaKelas').innerText = nama;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loading').innerText = 'Loading...';
+            document.getElementById('tableSiswa').classList.add('d-none');
+            document.getElementById('resultSiswa').innerHTML = '';
 
-        // Buka modal dulu
-        const modal = new bootstrap.Modal(document.getElementById('modalViewSiswa'));
-        modal.show();
+            // Buka modal dulu
+            const modal = new bootstrap.Modal(document.getElementById('modalViewSiswa'));
+            modal.show();
 
-        // Gunakan path relatif
-        fetch('get_siswa.php?id_kelas=' + id)
-            .then(res => {
-                if (!res.ok) throw new Error('HTTP error: ' + res.status);
-                return res.text();
-            })
-            .then(text => {
-                console.log('RAW:', text);
-                return JSON.parse(text);
-            })
-            .then(data => {
-                let html = '';
-                if (data.length === 0) {
-                    html = `<tr><td colspan="5" class="text-center">Belum ada siswa</td></tr>`;
-                } else {
-                    data.forEach((item, index) => {
-                        html += `
+            // Gunakan path relatif
+            fetch('get_siswa.php?id_kelas=' + id)
+                .then(res => {
+                    if (!res.ok) throw new Error('HTTP error: ' + res.status);
+                    return res.text();
+                })
+                .then(text => {
+                    console.log('RAW:', text);
+                    return JSON.parse(text);
+                })
+                .then(data => {
+                    let html = '';
+                    if (data.length === 0) {
+                        html = `<tr><td colspan="5" class="text-center">Belum ada siswa</td></tr>`;
+                    } else {
+                        data.forEach((item, index) => {
+                            html += `
                         <tr>
                             <td>${index + 1}</td>
                             <td>${item.nama}</td>
@@ -601,18 +601,18 @@ function decryptData($string) {
                             <td>${item.nilai}</td>
                             <td>${item.status}</td>
                         </tr>`;
-                    });
-                }
-                document.getElementById('resultSiswa').innerHTML = html;
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('tableSiswa').classList.remove('d-none');
-            })
-            .catch(err => {
-                console.error('ERROR:', err);
-                document.getElementById('loading').innerHTML =
-                    '<span class="text-danger">Gagal load data: ' + err.message + '</span>';
-            });
-    });
+                        });
+                    }
+                    document.getElementById('resultSiswa').innerHTML = html;
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('tableSiswa').classList.remove('d-none');
+                })
+                .catch(err => {
+                    console.error('ERROR:', err);
+                    document.getElementById('loading').innerHTML =
+                        '<span class="text-danger">Gagal load data: ' + err.message + '</span>';
+                });
+        });
     </script>
 </body>
 

@@ -15,8 +15,8 @@ $query = mysqli_query($conn, "SELECT p.*, n.nilai, n.status as status_lulus, k.n
 $data = mysqli_fetch_assoc($query);
 
 // Fungsi Dekripsi (Pastikan kunci sama)
-define('SECRET_KEY', 'ganti_dengan_kunci_rahasia_yang_sangat_panjang_123!@#');
-define('SECRET_IV', 'iv_rahasia_456!@#');
+define('SECRET_KEY', 'e7b434689dac661d0c8fb8d192a36fec76649fc82c3f83e80d17c38d9c3d7320');
+define('SECRET_IV', '2dee9400f5a55a4cbce6e5ed27f615e2');
 
 function decryptData($string) {
     if ($string === null || $string === '') return '';

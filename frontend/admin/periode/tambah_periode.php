@@ -14,7 +14,7 @@ if (!$id) {
 $query = mysqli_query($conn, "SELECT username, foto FROM users WHERE id='$id'");
 $user  = mysqli_fetch_assoc($query);
 
-  $data_periode = mysqli_query($conn, "SELECT * FROM periode ORDER BY tahun DESC");
+$data_periode = mysqli_query($conn, "SELECT * FROM periode ORDER BY tahun DESC");
 ?>
 
 
@@ -31,23 +31,23 @@ $user  = mysqli_fetch_assoc($query);
     <!-- Fonts and icons -->
     <script src="../../../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
-    WebFont.load({
-        google: {
-            families: ["Public Sans:300,400,500,600,700"]
-        },
-        custom: {
-            families: [
-                "Font Awesome 5 Solid",
-                "Font Awesome 5 Regular",
-                "Font Awesome 5 Brands",
-                "simple-line-icons",
-            ],
-            urls: ["../../../assets/css/fonts.min.css"],
-        },
-        active: function() {
-            sessionStorage.fonts = true;
-        },
-    });
+        WebFont.load({
+            google: {
+                families: ["Public Sans:300,400,500,600,700"]
+            },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["../../../assets/css/fonts.min.css"],
+            },
+            active: function() {
+                sessionStorage.fonts = true;
+            },
+        });
     </script>
 
     <!-- CSS Files -->
@@ -275,89 +275,89 @@ $user  = mysqli_fetch_assoc($query);
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php 
-                        $no = 1; 
-                        // Pastikan query mengambil dari tabel periode
-                      
-                        while ($p = mysqli_fetch_assoc($data_periode)) : 
-                        ?>
-                                                <tr>
-                                                    <td><?= $no++ ?></td>
-                                                    <td><?= $p['tahun'] ?></td>
-                                                    <td><?= $p['tanggal_mulai'] ?></td>
-                                                    <td><?= $p['tanggal_selesai'] ?></td>
-                                                    <td>
-                                                        <div class="form-button-action d-flex justify-content-start">
-                                                            <button title="Detail" class="btn btn-link btn-info px-1"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalViewPeriode<?= $p['id'] ?>">
-                                                                <i class="fa fa-eye"></i>
-                                                            </button>
+                                                <?php
+                                                $no = 1;
+                                                // Pastikan query mengambil dari tabel periode
+
+                                                while ($p = mysqli_fetch_assoc($data_periode)) :
+                                                ?>
+                                                    <tr>
+                                                        <td><?= $no++ ?></td>
+                                                        <td><?= $p['tahun'] ?></td>
+                                                        <td><?= $p['tanggal_mulai'] ?></td>
+                                                        <td><?= $p['tanggal_selesai'] ?></td>
+                                                        <td>
+                                                            <div class="form-button-action d-flex justify-content-start">
+                                                                <button title="Detail" class="btn btn-link btn-info px-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modalViewPeriode<?= $p['id'] ?>">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </button>
 
 
-                                                            <button title="Edit" class="btn btn-link btn-primary px-1"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalEditPeriode<?= $p['id'] ?>">
-                                                                <i class="fa fa-edit"></i>
-                                                            </button>
+                                                                <button title="Edit" class="btn btn-link btn-primary px-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modalEditPeriode<?= $p['id'] ?>">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </button>
 
-                                                            <a href="../../../backend/proses_periode.php?aksi=hapus&id=<?= $p['id'] ?>"
-                                                                class="btn btn-link btn-danger px-1"
-                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus periode ini?')">
-                                                                <i class="fas fa-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                                <a href="../../../backend/proses_periode.php?aksi=hapus&id=<?= $p['id'] ?>"
+                                                                    class="btn btn-link btn-danger px-1"
+                                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus periode ini?')">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
 
-                                                <div class="modal fade" id="modalEditPeriode<?= $p['id'] ?>"
-                                                    tabindex="-1" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <form
-                                                                action="../../../backend/proses_periode.php?aksi=update"
-                                                                method="POST">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Edit Periode</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <input type="hidden" name="id"
-                                                                        value="<?= $p['id'] ?>">
-                                                                    <div class="mb-3">
-                                                                        <label>Tahun</label>
-                                                                        <input type="number" name="tahun"
-                                                                            class="form-control"
-                                                                            value="<?= $p['tahun'] ?>" required>
+                                                    <div class="modal fade" id="modalEditPeriode<?= $p['id'] ?>"
+                                                        tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <form
+                                                                    action="../../../backend/proses_periode.php?aksi=update"
+                                                                    method="POST">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Edit Periode</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"></button>
                                                                     </div>
-                                                                    <div class="mb-3">
-                                                                        <label>Tanggal Mulai</label>
-                                                                        <input type="date" name="tanggal_mulai"
-                                                                            class="form-control"
-                                                                            value="<?= $p['tanggal_mulai'] ?>" required>
+                                                                    <div class="modal-body">
+                                                                        <input type="hidden" name="id"
+                                                                            value="<?= $p['id'] ?>">
+                                                                        <div class="mb-3">
+                                                                            <label>Tahun</label>
+                                                                            <input type="number" name="tahun"
+                                                                                class="form-control"
+                                                                                value="<?= $p['tahun'] ?>" required>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label>Tanggal Mulai</label>
+                                                                            <input type="date" name="tanggal_mulai"
+                                                                                class="form-control"
+                                                                                value="<?= $p['tanggal_mulai'] ?>" required>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label>Tanggal Selesai</label>
+                                                                            <input type="date" name="tanggal_selesai"
+                                                                                class="form-control"
+                                                                                value="<?= $p['tanggal_selesai'] ?>"
+                                                                                required>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label>Catatan</label>
+                                                                            <textarea name="catatan" class="form-control"
+                                                                                rows="3"><?= $p['catatan'] ?></textarea>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="mb-3">
-                                                                        <label>Tanggal Selesai</label>
-                                                                        <input type="date" name="tanggal_selesai"
-                                                                            class="form-control"
-                                                                            value="<?= $p['tanggal_selesai'] ?>"
-                                                                            required>
+                                                                    <div class="modal-footer">
+                                                                        <button type="submit" class="btn btn-primary">Simpan
+                                                                            Perubahan</button>
                                                                     </div>
-                                                                    <div class="mb-3">
-                                                                        <label>Catatan</label>
-                                                                        <textarea name="catatan" class="form-control"
-                                                                            rows="3"><?= $p['catatan'] ?></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-primary">Simpan
-                                                                        Perubahan</button>
-                                                                </div>
-                                                            </form>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
                                                 <?php endwhile; ?>
                                             </tbody>
@@ -365,40 +365,40 @@ $user  = mysqli_fetch_assoc($query);
                                         <?php mysqli_data_seek($data_periode, 0); ?>
                                         <?php while ($p = mysqli_fetch_assoc($data_periode)) : ?>
 
-                                        <!-- MODAL VIEW -->
-                                        <div class="modal fade" id="modalViewPeriode<?= $p['id'] ?>" tabindex="-1">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Detail Periode</h5>
-                                                        <button type="button" class="btn-close"
-                                                            data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <table class="table table-bordered">
-                                                            <tr>
-                                                                <th>Tahun</th>
-                                                                <td><?= $p['tahun'] ?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Tanggal Mulai</th>
-                                                                <td><?= date('d-m-Y', strtotime($p['tanggal_mulai'])) ?>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Tanggal Selesai</th>
-                                                                <td><?= date('d-m-Y', strtotime($p['tanggal_selesai'])) ?>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>Catatan</th>
-                                                                <td><?= $p['catatan'] ?: '-' ?></td>
-                                                            </tr>
-                                                        </table>
+                                            <!-- MODAL VIEW -->
+                                            <div class="modal fade" id="modalViewPeriode<?= $p['id'] ?>" tabindex="-1">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Detail Periode</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <table class="table table-bordered">
+                                                                <tr>
+                                                                    <th>Tahun</th>
+                                                                    <td><?= $p['tahun'] ?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Tanggal Mulai</th>
+                                                                    <td><?= date('d-m-Y', strtotime($p['tanggal_mulai'])) ?>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Tanggal Selesai</th>
+                                                                    <td><?= date('d-m-Y', strtotime($p['tanggal_selesai'])) ?>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Catatan</th>
+                                                                    <td><?= $p['catatan'] ?: '-' ?></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
                                         <?php endwhile; ?>
 
@@ -416,8 +416,7 @@ $user  = mysqli_fetch_assoc($query);
                 <div class="container-fluid d-flex justify-content-center">
 
                     <div class="copyright ">
-                        2025, made with <i class="fa fa-heart heart text-danger"></i> by
-                        <a href="">Rahayu</a>
+                        2026, by Rahayu
                     </div>
 
                 </div>
@@ -475,61 +474,61 @@ $user  = mysqli_fetch_assoc($query);
     <!-- Kaiadmin JS -->
     <script src="../../../assets/js/kaiadmin.min.js"></script>
     <script>
-    $(document).ready(function() {
-        $("#basic-datatables").DataTable({});
+        $(document).ready(function() {
+            $("#basic-datatables").DataTable({});
 
-        $("#multi-filter-select").DataTable({
-            pageLength: 5,
-            initComplete: function() {
-                this.api()
-                    .columns()
-                    .every(function() {
-                        var column = this;
-                        var select = $(
-                                '<select class="form-select"><option value=""></option></select>'
-                            )
-                            .appendTo($(column.footer()).empty())
-                            .on("change", function() {
-                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+            $("#multi-filter-select").DataTable({
+                pageLength: 5,
+                initComplete: function() {
+                    this.api()
+                        .columns()
+                        .every(function() {
+                            var column = this;
+                            var select = $(
+                                    '<select class="form-select"><option value=""></option></select>'
+                                )
+                                .appendTo($(column.footer()).empty())
+                                .on("change", function() {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
 
-                                column
-                                    .search(val ? "^" + val + "$" : "", true, false)
-                                    .draw();
-                            });
+                                    column
+                                        .search(val ? "^" + val + "$" : "", true, false)
+                                        .draw();
+                                });
 
-                        column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function(d, j) {
-                                select.append(
-                                    '<option value="' + d + '">' + d + "</option>"
-                                );
-                            });
-                    });
-            },
+                            column
+                                .data()
+                                .unique()
+                                .sort()
+                                .each(function(d, j) {
+                                    select.append(
+                                        '<option value="' + d + '">' + d + "</option>"
+                                    );
+                                });
+                        });
+                },
+            });
+
+            // Add Row
+            $("#add-row").DataTable({
+                pageLength: 5,
+            });
+
+            var action =
+                '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+            $("#addRowButton").click(function() {
+                $("#add-row")
+                    .dataTable()
+                    .fnAddData([
+                        $("#addName").val(),
+                        $("#addPosition").val(),
+                        $("#addOffice").val(),
+                        action,
+                    ]);
+                $("#addRowModal").modal("hide");
+            });
         });
-
-        // Add Row
-        $("#add-row").DataTable({
-            pageLength: 5,
-        });
-
-        var action =
-            '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-        $("#addRowButton").click(function() {
-            $("#add-row")
-                .dataTable()
-                .fnAddData([
-                    $("#addName").val(),
-                    $("#addPosition").val(),
-                    $("#addOffice").val(),
-                    action,
-                ]);
-            $("#addRowModal").modal("hide");
-        });
-    });
     </script>
 </body>
 

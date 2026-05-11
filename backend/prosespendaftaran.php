@@ -46,7 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pendidikan_ayah  = encryptData(mysqli_real_escape_string($conn, $_POST['pendidikan_ayah']));
     $pendidikan_ibu   = encryptData(mysqli_real_escape_string($conn, $_POST['pendidikan_ibu']));
     $agama            = encryptData(mysqli_real_escape_string($conn, $_POST['agama']));
-
+    $nisn            = encryptData(mysqli_real_escape_string($conn, $_POST['nisn']));
+    $alamat_asal_sekolah = encryptData(mysqli_real_escape_string($conn, $_POST['alamat_asal_sekolah']));
+    $nik_ayah        = encryptData(mysqli_real_escape_string($conn, $_POST['nik_ayah']));
+    $nik_ibu         = encryptData(mysqli_real_escape_string($conn, $_POST['nik_ibu']));
+    $tanggal_lahir_ortu = encryptData(mysqli_real_escape_string($conn, $_POST['tanggal_lahir_ortu']));
+    $alamat_ortu     = encryptData(mysqli_real_escape_string($conn, $_POST['alamat_ortu']));
 
     // Folder upload (Gunakan path absolut atau pastikan folder ini ada)
     $folderUpload = "uploads/";
@@ -55,32 +60,91 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Fungsi upload sederhana
-    function uploadFile($file, $prefix, $folder)
-    {
-        if (!empty($file['name'])) {
-            $namaFile = $prefix . "_" . time() . "_" . basename($file['name']);
-            $target = $folder . $namaFile;
-            if (move_uploaded_file($file['tmp_name'], $target)) {
-                return $target;
-            }
+  // Fungsi upload PDF
+function uploadFile($file, $prefix, $folder)
+{
+    // Cek apakah file dipilih
+    if (!empty($file['name'])) {
+
+        // Ambil ekstensi file
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        // Validasi ekstensi harus pdf
+        if ($ext !== 'pdf') {
+            return [
+                'status' => false,
+                'message' => 'File harus berformat PDF!'
+            ];
         }
-        return "";
+
+        // Validasi MIME type
+        $mime = mime_content_type($file['tmp_name']);
+
+        if ($mime !== 'application/pdf') {
+            return [
+                'status' => false,
+                'message' => 'File tidak valid, hanya PDF yang diperbolehkan!'
+            ];
+        }
+
+        // Generate nama file
+        $namaFile = $prefix . "_" . time() . ".pdf";
+        $target = $folder . $namaFile;
+
+        // Upload file
+        if (move_uploaded_file($file['tmp_name'], $target)) {
+            return [
+                'status' => true,
+                'path' => $target
+            ];
+        }
+
+        return [
+            'status' => false,
+            'message' => 'Gagal upload file!'
+        ];
     }
 
-    $path_ijazah = uploadFile($_FILES['foto_ijazah'], "ijazah", $folderUpload);
-    $path_raport = uploadFile($_FILES['foto_raport'], "raport", $folderUpload);
-    $path_kk     = uploadFile($_FILES['foto_kk'], "kk", $folderUpload);
+    return [
+        'status' => false,
+        'message' => 'File wajib diupload!'
+    ];
+}
+
+   $ijazah = uploadFile($_FILES['foto_ijazah'], "ijazah", $folderUpload);
+if (!$ijazah['status']) {
+    die($ijazah['message']);
+}
+$path_ijazah = $ijazah['path'];
+
+$raport = uploadFile($_FILES['foto_raport'], "raport", $folderUpload);
+if (!$raport['status']) {
+    die($raport['message']);
+}
+$path_raport = $raport['path'];
+
+$kk = uploadFile($_FILES['foto_kk'], "kk", $folderUpload);
+if (!$kk['status']) {
+    die($kk['message']);
+}
+$path_kk = $kk['path'];
+
+$ktp = uploadFile($_FILES['ktp_ortu'], "ktp_ortu", $folderUpload);
+if (!$ktp['status']) {
+    die($ktp['message']);
+}
+$path_ktp_ortu = $ktp['path'];
     $status = "pending";
 
     // Sesuaikan kolom dengan struktur DB Anda
     $sql = "INSERT INTO pendaftaran (
         id_user, nama_lengkap, jenis_kelamin, no_hp, email, alamat, asal_sekolah, nik,
         nama_ayah, nama_ibu, pekerjaan_ayah, pekerjaan_ibu, pendidikan_ayah, pendidikan_ibu,
-        penghasilan_ayah, penghasilan_ibu, foto_ijazah, foto_raport, foto_kk, agama
+        penghasilan_ayah, penghasilan_ibu, foto_ijazah, foto_raport, foto_kk, agama, ktp_ortu, alamat_asal_sekolah, nik_ayah, nik_ibu, tanggal_lahir_ortu, alamat_ortu,nisn
     ) VALUES (
          '$id_user','$nama_lengkap', '$jenis_kelamin', '$no_hp', '$email', '$alamat', '$asal_sekolah', '$nik',
         '$nama_ayah', '$nama_ibu', '$pekerjaan_ayah', '$pekerjaan_ibu', '$pendidikan_ayah', '$pendidikan_ibu',
-        '$penghasilan_ayah', '$penghasilan_ibu', '$path_ijazah', '$path_raport', '$path_kk', '$agama'
+        '$penghasilan_ayah', '$penghasilan_ibu', '$path_ijazah', '$path_raport', '$path_kk', '$agama', '$path_ktp_ortu', '$alamat_asal_sekolah', '$nik_ayah', '$nik_ibu', '$tanggal_lahir_ortu', '$alamat_ortu', '$nisn'
     )";
 
     if (mysqli_query($conn, $sql)) {

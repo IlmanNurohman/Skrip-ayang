@@ -1,6 +1,6 @@
-<?php 
-session_start(); 
-include '../../backend/koneksi.php'; 
+<?php
+session_start();
+include '../../backend/koneksi.php';
 
 // 1. Cek apakah user sudah login
 if (!isset($_SESSION['user_id'])) {
@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$id_user = $_SESSION['user_id']; 
+$id_user = $_SESSION['user_id'];
 
 // 2. Cek koneksi
 if (!$conn) {
@@ -287,9 +287,9 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                     <div class="card-title">Form Pendaftaran</div>
                                 </div>
                                 <div class="card-body">
-                                    <?php if ($sudah_daftar > 0): 
-        $status_pendaftaran = strtolower($data_daftar['status'] ?? 'pending'); 
-    ?>
+                                    <?php if ($sudah_daftar > 0):
+                                        $status_pendaftaran = strtolower($data_daftar['status'] ?? 'pending');
+                                    ?>
                                     <div class="text-center py-5">
                                         <?php if ($status_pendaftaran == 'lulus' || $status_pendaftaran == 'diterima'): ?>
                                         <div class="mb-4">
@@ -494,31 +494,30 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                 <div class="form-group">
                                                     <label>Ijazah<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_ijazah"
-                                                        class="form-control form-control-sm" accept="pdf/*" required>
+                                                        class="form-control form-control-sm"
+                                                        accept=".pdf,application/pdf" required>
                                                 </div>
 
-                                                <div class="form-group">
+                                                <div class=" form-group">
                                                     <label>Raport<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_raport"
-                                                        class="form-control form-control-sm" accept="pdf/*" required>
+                                                        class="form-control form-control-sm"
+                                                        accept=".pdf,application/pdf" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label>Kartu Keluarga<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_kk"
-                                                        class="form-control form-control-sm" accept="pdf/*" required>
+                                                        class="form-control form-control-sm"
+                                                        accept=".pdf,application/pdf" required>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>KTP Ayah<span class="text-danger">*</span></label>
-                                                    <input type="file" name="foto_ktp_ortu"
-                                                        class=" form-control form-control-sm" accept="pdf/*" required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>KTP Ibu<span class="text-danger">*</span></label>
-                                                    <input type="file" name="foto_ktp_ortu"
-                                                        class="form-control form-control-sm" accept="pdf/*" required>
+                                                    <label>KTP Ayah atau Ibu (salah satu)<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="file" name="ktp_ortu"
+                                                        class="form-control form-control-sm"
+                                                        accept=".pdf,application/pdf" required>
                                                 </div>
 
                                             </div>
@@ -546,8 +545,7 @@ $cek_daftar = mysqli_fetch_assoc($query);
                     <div class="container-fluid d-flex justify-content-center">
 
                         <div class="copyright ">
-                            2025, made with <i class="fa fa-heart heart text-danger"></i> by
-                            <a href="">Rahayu</a>
+                            2026, by Rahayu
                         </div>
 
                     </div>
@@ -631,7 +629,8 @@ $cek_daftar = mysqli_fetch_assoc($query);
             button: "OK"
         });
         </script>
-        <?php unset($_SESSION['swal']); endif; ?>
+        <?php unset($_SESSION['swal']);
+        endif; ?>
 
 
 </body>

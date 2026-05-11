@@ -45,7 +45,7 @@ $query_grafik = mysqli_query($conn, "
 $label_tgl = [];
 $data_jumlah = [];
 
-while($row = mysqli_fetch_assoc($query_grafik)){
+while ($row = mysqli_fetch_assoc($query_grafik)) {
     $label_tgl[] = date('d M', strtotime($row['tgl'])); // Format: 05 Jan
     $data_jumlah[] = $row['jumlah'];
 }
@@ -71,12 +71,13 @@ if (!$query_progress) {
 }
 
 
-function time_ago($timestamp) {
+function time_ago($timestamp)
+{
     $time_ago = strtotime($timestamp);
     $current_time = time();
     $time_difference = $current_time - $time_ago;
     $seconds = $time_difference;
-    
+
     $minutes      = round($seconds / 60);           // value 60 is seconds  
     $hours        = round($seconds / 3600);         // value 3600 is 60 minutes * 60 sec  
     $days         = round($seconds / 86400);        // value 86400 is 24 hours * 60 min * 60 sec  
@@ -100,7 +101,8 @@ $user  = mysqli_fetch_assoc($query);
 define('SECRET_KEY', 'e7b434689dac661d0c8fb8d192a36fec76649fc82c3f83e80d17c38d9c3d7320');
 define('SECRET_IV', '2dee9400f5a55a4cbce6e5ed27f615e2');
 
-function decryptData($string) {
+function decryptData($string)
+{
     $encrypt_method = "AES-256-CBC";
     $key = hash('sha256', SECRET_KEY);
     $iv  = substr(hash('sha256', SECRET_IV), 0, 16);
@@ -115,10 +117,10 @@ $gender_data = [];
 
 while ($row = mysqli_fetch_assoc($query_gender)) {
     // Sekarang fungsi decryptData sudah tersedia
-    $decoded_label = decryptData($row['jenis_kelamin']); 
-    
+    $decoded_label = decryptData($row['jenis_kelamin']);
+
     // Pastikan label rapi (huruf besar di awal)
-    $gender_labels[] = ucfirst($decoded_label); 
+    $gender_labels[] = ucfirst($decoded_label);
     $gender_data[] = $row['total'];
 }
 
@@ -139,23 +141,23 @@ $json_gender_data = json_encode($gender_data);
     <!-- Fonts and icons -->
     <script src="../../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
-    WebFont.load({
-        google: {
-            families: ["Public Sans:300,400,500,600,700"]
-        },
-        custom: {
-            families: [
-                "Font Awesome 5 Solid",
-                "Font Awesome 5 Regular",
-                "Font Awesome 5 Brands",
-                "simple-line-icons",
-            ],
-            urls: ["../../assets/css/fonts.min.css"],
-        },
-        active: function() {
-            sessionStorage.fonts = true;
-        },
-    });
+        WebFont.load({
+            google: {
+                families: ["Public Sans:300,400,500,600,700"]
+            },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["../../assets/css/fonts.min.css"],
+            },
+            active: function() {
+                sessionStorage.fonts = true;
+            },
+        });
     </script>
 
     <!-- CSS Files -->
@@ -513,46 +515,46 @@ $json_gender_data = json_encode($gender_data);
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <?php 
-                if(mysqli_num_rows($query_progress) > 0) {
-                    while($row = mysqli_fetch_assoc($query_progress)) : 
-                        $total_kuota = $row['kuota'];
-                        $terisi = $row['terisi'];
-                        
-                        // Hitung Persentase
-                        $persen = ($total_kuota > 0) ? round(($terisi / $total_kuota) * 100) : 0;
+                                    <?php
+                                    if (mysqli_num_rows($query_progress) > 0) {
+                                        while ($row = mysqli_fetch_assoc($query_progress)) :
+                                            $total_kuota = $row['kuota'];
+                                            $terisi = $row['terisi'];
 
-                        // Logika Warna Bootstrap
-                        $bg_color = "bg-success"; // Hijau (Aman)
-                        if ($persen >= 90) {
-                            $bg_color = "bg-danger";  // Merah (Hampir Penuh)
-                        } elseif ($persen >= 75) {
-                            $bg_color = "bg-warning"; // Kuning (Waspada)
-                        } elseif ($persen >= 50) {
-                            $bg_color = "bg-info";    // Biru (Setengah)
-                        }
-                ?>
-                                    <div class="mb-4">
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="fw-bold"><?= $row['nama_kelas']; ?></span>
-                                            <span class="text-muted small">
-                                                <b><?= $terisi; ?></b> terisi dari <b><?= $total_kuota; ?></b> Kursi
-                                                (<?= $persen; ?>%)
-                                            </span>
-                                        </div>
-                                        <div class="progress" style="height: 15px;">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated <?= $bg_color; ?>"
-                                                role="progressbar" style="width: <?= $persen; ?>%"
-                                                aria-valuenow="<?= $persen; ?>" aria-valuemin="0" aria-valuemax="100">
+                                            // Hitung Persentase
+                                            $persen = ($total_kuota > 0) ? round(($terisi / $total_kuota) * 100) : 0;
+
+                                            // Logika Warna Bootstrap
+                                            $bg_color = "bg-success"; // Hijau (Aman)
+                                            if ($persen >= 90) {
+                                                $bg_color = "bg-danger";  // Merah (Hampir Penuh)
+                                            } elseif ($persen >= 75) {
+                                                $bg_color = "bg-warning"; // Kuning (Waspada)
+                                            } elseif ($persen >= 50) {
+                                                $bg_color = "bg-info";    // Biru (Setengah)
+                                            }
+                                    ?>
+                                            <div class="mb-4">
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="fw-bold"><?= $row['nama_kelas']; ?></span>
+                                                    <span class="text-muted small">
+                                                        <b><?= $terisi; ?></b> terisi dari <b><?= $total_kuota; ?></b> Kursi
+                                                        (<?= $persen; ?>%)
+                                                    </span>
+                                                </div>
+                                                <div class="progress" style="height: 15px;">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated <?= $bg_color; ?>"
+                                                        role="progressbar" style="width: <?= $persen; ?>%"
+                                                        aria-valuenow="<?= $persen; ?>" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <?php 
-                    endwhile; 
-                } else {
-                    echo "<p class='text-center'>Belum ada data kelas.</p>";
-                }
-                ?>
+                                    <?php
+                                        endwhile;
+                                    } else {
+                                        echo "<p class='text-center'>Belum ada data kelas.</p>";
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <div class="card card-round">
@@ -603,45 +605,45 @@ $json_gender_data = json_encode($gender_data);
                                             </thead>
                                             <tbody>
                                                 <?php
-            // Query untuk mengambil data hasil seleksi
-            // Kita gabungkan (JOIN) dengan tabel users untuk mengambil kolom 'username'
-            $query_hasil = mysqli_query($conn, "SELECT n.*, u.username 
+                                                // Query untuk mengambil data hasil seleksi
+                                                // Kita gabungkan (JOIN) dengan tabel users untuk mengambil kolom 'username'
+                                                $query_hasil = mysqli_query($conn, "SELECT n.*, u.username 
                                                 FROM nilai_seleksi n 
                                                 JOIN users u ON n.siswa_id = u.id 
                                                 ORDER BY n.id DESC LIMIT 5");
 
-            if (mysqli_num_rows($query_hasil) > 0) {
-                while ($row = mysqli_fetch_assoc($query_hasil)) :
-                    // Tentukan warna badge berdasarkan status
-                    $badge_class = ($row['status'] == 'Lulus') ? 'badge-success' : 'badge-danger';
-                    $icon_class = ($row['status'] == 'Lulus') ? 'fa-check' : 'fa-times';
-                    $btn_class = ($row['status'] == 'Lulus') ? 'btn-success' : 'btn-danger';
-            ?>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <button
-                                                            class="btn btn-icon btn-round <?= $btn_class ?> btn-sm me-2">
-                                                            <i class="fa <?= $icon_class ?>"></i>
-                                                        </button>
-                                                        <?= htmlspecialchars($row['username']) ?>
-                                                    </th>
-                                                    <td class="text-end">
-                                                        <?= date('d M Y, H:i', strtotime('now')) ?>
-                                                    </td>
-                                                    <td class="text-end fw-bold">
-                                                        <?= $row['nilai'] ?>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <span
-                                                            class="badge <?= $badge_class ?>"><?= $row['status'] ?></span>
-                                                    </td>
-                                                </tr>
-                                                <?php 
-                endwhile; 
-            } else {
-                echo '<tr><td colspan="4" class="text-center py-4">Belum ada data seleksi.</td></tr>';
-            }
-            ?>
+                                                if (mysqli_num_rows($query_hasil) > 0) {
+                                                    while ($row = mysqli_fetch_assoc($query_hasil)) :
+                                                        // Tentukan warna badge berdasarkan status
+                                                        $badge_class = ($row['status'] == 'Lulus') ? 'badge-success' : 'badge-danger';
+                                                        $icon_class = ($row['status'] == 'Lulus') ? 'fa-check' : 'fa-times';
+                                                        $btn_class = ($row['status'] == 'Lulus') ? 'btn-success' : 'btn-danger';
+                                                ?>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <button
+                                                                    class="btn btn-icon btn-round <?= $btn_class ?> btn-sm me-2">
+                                                                    <i class="fa <?= $icon_class ?>"></i>
+                                                                </button>
+                                                                <?= htmlspecialchars($row['username']) ?>
+                                                            </th>
+                                                            <td class="text-end">
+                                                                <?= date('d M Y, H:i', strtotime('now')) ?>
+                                                            </td>
+                                                            <td class="text-end fw-bold">
+                                                                <?= $row['nilai'] ?>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                <span
+                                                                    class="badge <?= $badge_class ?>"><?= $row['status'] ?></span>
+                                                            </td>
+                                                        </tr>
+                                                <?php
+                                                    endwhile;
+                                                } else {
+                                                    echo '<tr><td colspan="4" class="text-center py-4">Belum ada data seleksi.</td></tr>';
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -656,43 +658,43 @@ $json_gender_data = json_encode($gender_data);
                                     </div>
                                     <div class="card-list py-4">
                                         <?php
-    // Query mengambil 10 pendaftar terbaru
-    $query_recent = mysqli_query($conn, "SELECT p.nama_lengkap, p.created_at, u.username 
+                                        // Query mengambil 10 pendaftar terbaru
+                                        $query_recent = mysqli_query($conn, "SELECT p.nama_lengkap, p.created_at, u.username 
                                          FROM pendaftaran p 
                                          JOIN users u ON p.id_user = u.id 
                                          ORDER BY p.id DESC LIMIT 10");
 
-    if (mysqli_num_rows($query_recent) > 0) {
-        while ($row = mysqli_fetch_assoc($query_recent)) {
-            // Ambil inisial huruf pertama dari username
-            $initial = strtoupper(substr($row['username'], 0, 1));
-            
-            // Array warna acak untuk avatar agar menarik
-            $colors = ['bg-primary', 'bg-info', 'bg-success', 'bg-danger', 'bg-warning', 'bg-secondary'];
-            $random_color = $colors[array_rand($colors)];
-    ?>
-                                        <div class="item-list mb-3">
-                                            <div class="avatar">
-                                                <span
-                                                    class="avatar-title rounded-circle border border-white <?php echo $random_color; ?>">
-                                                    <?php echo $initial; ?>
-                                                </span>
-                                            </div>
-                                            <div class="info-user ms-3">
-                                                <div class="username fw-bold">
-                                                    <?php echo htmlspecialchars($row['username']); ?></div>
-                                                <div class="status text-muted" style="font-size: 0.85rem;">
-                                                    Melakukan pendaftaran
-                                                    <?php echo time_ago($row['created_at']); ?>
+                                        if (mysqli_num_rows($query_recent) > 0) {
+                                            while ($row = mysqli_fetch_assoc($query_recent)) {
+                                                // Ambil inisial huruf pertama dari username
+                                                $initial = strtoupper(substr($row['username'], 0, 1));
+
+                                                // Array warna acak untuk avatar agar menarik
+                                                $colors = ['bg-primary', 'bg-info', 'bg-success', 'bg-danger', 'bg-warning', 'bg-secondary'];
+                                                $random_color = $colors[array_rand($colors)];
+                                        ?>
+                                                <div class="item-list mb-3">
+                                                    <div class="avatar">
+                                                        <span
+                                                            class="avatar-title rounded-circle border border-white <?php echo $random_color; ?>">
+                                                            <?php echo $initial; ?>
+                                                        </span>
+                                                    </div>
+                                                    <div class="info-user ms-3">
+                                                        <div class="username fw-bold">
+                                                            <?php echo htmlspecialchars($row['username']); ?></div>
+                                                        <div class="status text-muted" style="font-size: 0.85rem;">
+                                                            Melakukan pendaftaran
+                                                            <?php echo time_ago($row['created_at']); ?>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <?php 
-        } 
-    } else {
-        echo '<div class="text-center text-muted">Belum ada pendaftaran baru</div>';
-    }
-    ?>
+                                        <?php
+                                            }
+                                        } else {
+                                            echo '<div class="text-center text-muted">Belum ada pendaftaran baru</div>';
+                                        }
+                                        ?>
 
 
 
@@ -708,8 +710,7 @@ $json_gender_data = json_encode($gender_data);
                 <div class="container-fluid d-flex justify-content-center">
 
                     <div class="copyright ">
-                        2025, made with <i class="fa fa-heart heart text-danger"></i> by
-                        <a href="">Rahayu</a>
+                        2026, by Rahayu
                     </div>
 
                 </div>
@@ -788,153 +789,153 @@ $json_gender_data = json_encode($gender_data);
 
 
     <script>
-    var ctx = document.getElementById('statisticsChart').getContext('2d');
+        var ctx = document.getElementById('statisticsChart').getContext('2d');
 
-    var myStatisticsChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: <?php echo $json_labels; ?>, // Data Tanggal dari PHP
-            datasets: [{
-                label: "Pendaftaran Siswa",
-                borderColor: '#177dff',
-                pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
-                pointRadius: 5,
-                backgroundColor: 'rgba(23, 125, 255, 0.1)',
-                legendColor: '#177dff',
-                fill: true,
-                borderWidth: 2,
-                data: <?php echo $json_data; ?> // Data Jumlah dari PHP
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                display: false
-            },
-            tooltips: {
-                bodySpacing: 4,
-                mode: "nearest",
-                intersect: 0,
-                position: "nearest",
-                xPadding: 10,
-                yPadding: 10,
-                caretPadding: 10
-            },
-            layout: {
-                padding: {
-                    left: 5,
-                    right: 5,
-                    top: 15,
-                    bottom: 15
-                }
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        fontColor: "rgba(0,0,0,0.5)",
-                        fontStyle: "500",
-                        beginAtZero: true,
-                        maxTicksLimit: 5,
-                        padding: 20,
-                        // Memastikan angka yang muncul adalah bulat (integer)
-                        callback: function(value) {
-                            if (Math.floor(value) === value) {
-                                return value;
-                            }
-                        }
-                    },
-                    gridLines: {
-                        drawTicks: false,
-                        display: false
-                    }
-                }],
-                xAxes: [{
-                    gridLines: {
-                        zeroLineColor: "transparent"
-                    },
-                    ticks: {
-                        padding: 20,
-                        fontColor: "rgba(0,0,0,0.5)",
-                        fontStyle: "500"
-                    }
+        var myStatisticsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <?php echo $json_labels; ?>, // Data Tanggal dari PHP
+                datasets: [{
+                    label: "Pendaftaran Siswa",
+                    borderColor: '#177dff',
+                    pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
+                    pointRadius: 5,
+                    backgroundColor: 'rgba(23, 125, 255, 0.1)',
+                    legendColor: '#177dff',
+                    fill: true,
+                    borderWidth: 2,
+                    data: <?php echo $json_data; ?> // Data Jumlah dari PHP
                 }]
-            }
-        }
-    });
-    </script>
-
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-        const calendarEl = document.getElementById('calendar');
-        let calendar;
-
-        document.getElementById('openCalendar').addEventListener('click', function(e) {
-            e.preventDefault();
-
-            const modal = new bootstrap.Modal(document.getElementById('calendarModal'));
-            modal.show();
-
-            setTimeout(() => {
-                if (!calendar) {
-                    calendar = new FullCalendar.Calendar(calendarEl, {
-                        initialView: 'dayGridMonth',
-                        height: 500,
-                        headerToolbar: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                        },
-                        events: [{
-                            title: 'Pendaftaran',
-                            start: new Date().toISOString().split('T')[
-                                0]
-                        }]
-                    });
-                    calendar.render();
-                }
-            }, 300);
-        });
-    });
-
-    document.getElementById('openMaps').addEventListener('click', function(e) {
-        e.preventDefault();
-        const modalMaps = new bootstrap.Modal(document.getElementById('mapsModal'));
-        modalMaps.show();
-    });
-    </script>
-
-    <script>
-    var genderCtx = document.getElementById('genderPieChart').getContext('2d');
-    var myGenderPieChart = new Chart(genderCtx, {
-        type: 'pie',
-        data: {
-            datasets: [{
-                data: <?php echo $json_gender_data; ?>,
-                backgroundColor: ['#1d7af3',
-                    '#f3545d'
-                ], // Biru untuk Laki-laki, Merah Muda untuk Perempuan
-                borderWidth: 2
-            }],
-            labels: <?php echo $json_gender_labels; ?>
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                position: 'bottom'
             },
-            // Plugin pieceLabel untuk menampilkan persentase di dalam chart
-            pieceLabel: {
-                render: 'percentage',
-                fontColor: 'white',
-                fontSize: 12,
-                fontStyle: 'bold'
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    bodySpacing: 4,
+                    mode: "nearest",
+                    intersect: 0,
+                    position: "nearest",
+                    xPadding: 10,
+                    yPadding: 10,
+                    caretPadding: 10
+                },
+                layout: {
+                    padding: {
+                        left: 5,
+                        right: 5,
+                        top: 15,
+                        bottom: 15
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "rgba(0,0,0,0.5)",
+                            fontStyle: "500",
+                            beginAtZero: true,
+                            maxTicksLimit: 5,
+                            padding: 20,
+                            // Memastikan angka yang muncul adalah bulat (integer)
+                            callback: function(value) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        },
+                        gridLines: {
+                            drawTicks: false,
+                            display: false
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            zeroLineColor: "transparent"
+                        },
+                        ticks: {
+                            padding: 20,
+                            fontColor: "rgba(0,0,0,0.5)",
+                            fontStyle: "500"
+                        }
+                    }]
+                }
             }
-        }
-    });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const calendarEl = document.getElementById('calendar');
+            let calendar;
+
+            document.getElementById('openCalendar').addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const modal = new bootstrap.Modal(document.getElementById('calendarModal'));
+                modal.show();
+
+                setTimeout(() => {
+                    if (!calendar) {
+                        calendar = new FullCalendar.Calendar(calendarEl, {
+                            initialView: 'dayGridMonth',
+                            height: 500,
+                            headerToolbar: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                            },
+                            events: [{
+                                title: 'Pendaftaran',
+                                start: new Date().toISOString().split('T')[
+                                    0]
+                            }]
+                        });
+                        calendar.render();
+                    }
+                }, 300);
+            });
+        });
+
+        document.getElementById('openMaps').addEventListener('click', function(e) {
+            e.preventDefault();
+            const modalMaps = new bootstrap.Modal(document.getElementById('mapsModal'));
+            modalMaps.show();
+        });
+    </script>
+
+    <script>
+        var genderCtx = document.getElementById('genderPieChart').getContext('2d');
+        var myGenderPieChart = new Chart(genderCtx, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: <?php echo $json_gender_data; ?>,
+                    backgroundColor: ['#1d7af3',
+                        '#f3545d'
+                    ], // Biru untuk Laki-laki, Merah Muda untuk Perempuan
+                    borderWidth: 2
+                }],
+                labels: <?php echo $json_gender_labels; ?>
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'bottom'
+                },
+                // Plugin pieceLabel untuk menampilkan persentase di dalam chart
+                pieceLabel: {
+                    render: 'percentage',
+                    fontColor: 'white',
+                    fontSize: 12,
+                    fontStyle: 'bold'
+                }
+            }
+        });
     </script>
 </body>
 

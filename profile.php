@@ -35,23 +35,23 @@ if (!$user) {
     <!-- Fonts and icons -->
     <script src="assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
-    WebFont.load({
-        google: {
-            families: ["Public Sans:300,400,500,600,700"]
-        },
-        custom: {
-            families: [
-                "Font Awesome 5 Solid",
-                "Font Awesome 5 Regular",
-                "Font Awesome 5 Brands",
-                "simple-line-icons",
-            ],
-            urls: ["assets/css/fonts.min.css"],
-        },
-        active: function() {
-            sessionStorage.fonts = true;
-        },
-    });
+        WebFont.load({
+            google: {
+                families: ["Public Sans:300,400,500,600,700"]
+            },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["assets/css/fonts.min.css"],
+            },
+            active: function() {
+                sessionStorage.fonts = true;
+            },
+        });
     </script>
 
     <!-- CSS Files -->
@@ -60,31 +60,31 @@ if (!$user) {
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
 
     <style>
-    .profile-img {
-        width: 140px;
-        height: 140px;
-        object-fit: cover;
-        border: 4px solid #eaeaea;
-    }
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border: 4px solid #eaeaea;
+        }
 
 
-    .badge-role {
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-weight: 600;
-    }
+        .badge-role {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
 
-    .profile-info label {
-        margin-bottom: 2px;
-        font-weight: 600;
-        color: #8d9498;
-    }
+        .profile-info label {
+            margin-bottom: 2px;
+            font-weight: 600;
+            color: #8d9498;
+        }
 
-    .soft-shadow {
-        box-shadow:
-            0 4px 12px rgba(0, 0, 0, 0.08),
-            0 2px 6px rgba(0, 0, 0, 0.05);
-    }
+        .soft-shadow {
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.08),
+                0 2px 6px rgba(0, 0, 0, 0.05);
+        }
     </style>
 
 
@@ -119,104 +119,104 @@ if (!$user) {
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
                         <?php if ($_SESSION['role'] == 'siswa'): ?>
-                        <li class="nav-item">
-                            <a href="frontend/siswa/dashboard_siswa.php" class="collapsed" aria-expanded="false">
-                                <i class="fas fa-home"></i>
-                                <p>Dashboard</p>
+                            <li class="nav-item">
+                                <a href="frontend/siswa/dashboard_siswa.php" class="collapsed" aria-expanded="false">
+                                    <i class="fas fa-home"></i>
+                                    <p>Dashboard</p>
 
-                            </a>
-                        </li>
-                        <li class="nav-section">
-                            <span class="sidebar-mini-icon">
-                                <i class="fa fa-ellipsis-h"></i>
-                            </span>
-                            <h4 class="text-section">Menu</h4>
-                        </li>
+                                </a>
+                            </li>
+                            <li class="nav-section">
+                                <span class="sidebar-mini-icon">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </span>
+                                <h4 class="text-section">Menu</h4>
+                            </li>
 
-                        <li class="nav-item">
-                            <a href="frontend/siswa/form_pendaftaran.php">
-                                <i class="fas fa-layer-group"></i>
-                                <p>Pendaftaran</p>
+                            <li class="nav-item">
+                                <a href="frontend/siswa/form_pendaftaran.php">
+                                    <i class="fas fa-layer-group"></i>
+                                    <p>Pendaftaran</p>
 
-                            </a>
-                        </li>
+                                </a>
+                            </li>
 
 
-                        <li class="nav-item">
-                            <a href="frontend/siswa/ujian.php">
-                                <i class=" fas fa-th-list"></i>
-                                <p>Seleksi</p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="frontend/siswa/ujian.php">
+                                    <i class=" fas fa-th-list"></i>
+                                    <p>Seleksi</p>
+                                </a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a href="frontend/siswa/hasil_pendaftaran.php">
-                                <i class="fas fa-pen-square"></i>
-                                <p>Hasil Pendaftaran</p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="frontend/siswa/hasil_pendaftaran.php">
+                                    <i class="fas fa-pen-square"></i>
+                                    <p>Hasil Pendaftaran</p>
+                                </a>
+                            </li>
                         <?php endif; ?>
                         <?php if ($_SESSION['role'] == 'admin'): ?>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-                                <i class="fas fa-home"></i>
-                                <p>Dashboard</p>
-                            </a>
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                                    <i class="fas fa-home"></i>
+                                    <p>Dashboard</p>
+                                </a>
 
-                        </li>
-                        <li class="nav-section">
-                            <span class="sidebar-mini-icon">
-                                <i class="fa fa-ellipsis-h"></i>
-                            </span>
-                            <h4 class="text-section">Menu</h4>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pendaftaran/index.php">
-                                <i class="fas fa-layer-group"></i>
-                                <p>Pendaftaran</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="soal/index.php">
-                                <i class="fas fa-th-list"></i>
-                                <p>Bank Soal</p>
+                            </li>
+                            <li class="nav-section">
+                                <span class="sidebar-mini-icon">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </span>
+                                <h4 class="text-section">Menu</h4>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pendaftaran/index.php">
+                                    <i class="fas fa-layer-group"></i>
+                                    <p>Pendaftaran</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="soal/index.php">
+                                    <i class="fas fa-th-list"></i>
+                                    <p>Bank Soal</p>
 
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="periode/tambah_periode.php">
-                                <i class="fas fa-pen-square"></i>
-                                <p>Periode</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="kelas/index.php">
-                                <i class="fas fa-th-large"></i>
-                                <p>Kelas</p>
-                            </a>
-                        </li>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="periode/tambah_periode.php">
+                                    <i class="fas fa-pen-square"></i>
+                                    <p>Periode</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="kelas/index.php">
+                                    <i class="fas fa-th-large"></i>
+                                    <p>Kelas</p>
+                                </a>
+                            </li>
                         <?php endif; ?>
                         <?php if ($_SESSION['role'] == 'super_admin'): ?>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-                                <i class="fas fa-home"></i>
-                                <p>Dashboard</p>
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                                    <i class="fas fa-home"></i>
+                                    <p>Dashboard</p>
 
-                            </a>
+                                </a>
 
-                        </li>
-                        <li class="nav-section">
-                            <span class="sidebar-mini-icon">
-                                <i class="fa fa-ellipsis-h"></i>
-                            </span>
-                            <h4 class="text-section">Menu</h4>
-                        </li>
-                        <li class="nav-item">
-                            <a href="users/index.php">
-                                <i class="fas fa-users"></i>
-                                <p>Users</p>
-                            </a>
-                        </li>
+                            </li>
+                            <li class="nav-section">
+                                <span class="sidebar-mini-icon">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </span>
+                                <h4 class="text-section">Menu</h4>
+                            </li>
+                            <li class="nav-item">
+                                <a href="users/index.php">
+                                    <i class="fas fa-users"></i>
+                                    <p>Users</p>
+                                </a>
+                            </li>
                         <?php endif; ?>
 
                     </ul>
@@ -349,14 +349,14 @@ if (!$user) {
                                     <h4 class="card-title fw-bold">Profil</h4>
                                 </div>
                                 <div class="card-body">
-                                    <?php 
-            $foto_path = "assets/img/user/" . $user['foto'];
-            if (!empty($user['foto']) && file_exists($foto_path)) {
-                $gambar = $foto_path;
-            } else {
-                $gambar = "assets/img/user/default-profile.png";
-            }
-            ?>
+                                    <?php
+                                    $foto_path = "assets/img/user/" . $user['foto'];
+                                    if (!empty($user['foto']) && file_exists($foto_path)) {
+                                        $gambar = $foto_path;
+                                    } else {
+                                        $gambar = "assets/img/user/default-profile.png";
+                                    }
+                                    ?>
 
                                     <div class="row">
                                         <div class="col-md-5 d-flex flex-column align-items-center  border-end py-4 ">
@@ -418,8 +418,7 @@ if (!$user) {
                 <div class="container-fluid d-flex justify-content-center">
 
                     <div class="copyright ">
-                        2025, made with <i class="fa fa-heart heart text-danger"></i> by
-                        <a href="">Rahayu</a>
+                        2026, by Rahayu
                     </div>
 
                 </div>
