@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Fungsi upload sederhana
   // Fungsi upload PDF
-function uploadFile($file, $prefix, $folder)
+/*function uploadFile($file, $prefix, $folder)
 {
     // Cek apakah file dipilih
     if (!empty($file['name'])) {
@@ -108,6 +108,54 @@ function uploadFile($file, $prefix, $folder)
     return [
         'status' => false,
         'message' => 'File wajib diupload!'
+    ];
+}*/
+function uploadFile($file, $prefix, $folder)
+{
+    // Kalau tidak upload file
+    if (empty($file['name'])) {
+        return [
+            'status' => true,
+            'path' => null // atau ''
+        ];
+    }
+
+    // Ambil ekstensi file
+    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+    // Validasi ekstensi harus pdf
+    if ($ext !== 'pdf') {
+        return [
+            'status' => false,
+            'message' => 'File harus berformat PDF!'
+        ];
+    }
+
+    // Validasi MIME type
+    $mime = mime_content_type($file['tmp_name']);
+
+    if ($mime !== 'application/pdf') {
+        return [
+            'status' => false,
+            'message' => 'File tidak valid, hanya PDF yang diperbolehkan!'
+        ];
+    }
+
+    // Generate nama file
+    $namaFile = $prefix . "_" . time() . ".pdf";
+    $target = $folder . $namaFile;
+
+    // Upload file
+    if (move_uploaded_file($file['tmp_name'], $target)) {
+        return [
+            'status' => true,
+            'path' => $target
+        ];
+    }
+
+    return [
+        'status' => false,
+        'message' => 'Gagal upload file!'
     ];
 }
 
