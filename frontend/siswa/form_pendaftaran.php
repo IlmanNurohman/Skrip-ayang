@@ -495,21 +495,21 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                     <label>Ijazah<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_ijazah"
                                                         class="form-control form-control-sm"
-                                                        accept=".pdf,application/pdf" required>
+                                                        accept=".pdf,application/pdf">
                                                 </div>
 
                                                 <div class=" form-group">
                                                     <label>Raport<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_raport"
                                                         class="form-control form-control-sm"
-                                                        accept=".pdf,application/pdf" required>
+                                                        accept=".pdf,application/pdf">
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label>Kartu Keluarga<span class="text-danger">*</span></label>
                                                     <input type="file" name="foto_kk"
                                                         class="form-control form-control-sm"
-                                                        accept=".pdf,application/pdf" required>
+                                                        accept=".pdf,application/pdf">
                                                 </div>
 
                                                 <div class="form-group">
@@ -517,7 +517,7 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                             class="text-danger">*</span></label>
                                                     <input type="file" name="ktp_ortu"
                                                         class="form-control form-control-sm"
-                                                        accept=".pdf,application/pdf" required>
+                                                        accept=".pdf,application/pdf">
                                                 </div>
 
                                             </div>
