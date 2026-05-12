@@ -112,17 +112,32 @@ function decryptData($string)
 // --- Query Jenis Kelamin ---
 $query_gender = mysqli_query($conn, "SELECT jenis_kelamin, COUNT(*) as total FROM pendaftaran GROUP BY jenis_kelamin");
 
-$gender_labels = [];
-$gender_data = [];
+$gender_count = [
+    'Laki-laki' => 0,
+    'Perempuan' => 0
+];
 
 while ($row = mysqli_fetch_assoc($query_gender)) {
-    // Sekarang fungsi decryptData sudah tersedia
+
     $decoded_label = decryptData($row['jenis_kelamin']);
 
-    // Pastikan label rapi (huruf besar di awal)
-    $gender_labels[] = ucfirst($decoded_label);
-    $gender_data[] = $row['total'];
+    // Skip data rusak
+    if ($decoded_label === false || trim($decoded_label) === '') {
+        continue;
+    }
+
+    $decoded_label = trim(strtolower($decoded_label));
+
+    // Normalisasi label
+    if ($decoded_label == 'laki-laki' || $decoded_label == 'laki laki') {
+        $gender_count['Laki-laki'] += $row['total'];
+    } elseif ($decoded_label == 'perempuan') {
+        $gender_count['Perempuan'] += $row['total'];
+    }
 }
+
+$gender_labels = array_keys($gender_count);
+$gender_data = array_values($gender_count);
 
 $json_gender_labels = json_encode($gender_labels);
 $json_gender_data = json_encode($gender_data);
@@ -141,23 +156,23 @@ $json_gender_data = json_encode($gender_data);
     <!-- Fonts and icons -->
     <script src="../../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["../../assets/css/fonts.min.css"],
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            },
-        });
+    WebFont.load({
+        google: {
+            families: ["Public Sans:300,400,500,600,700"]
+        },
+        custom: {
+            families: [
+                "Font Awesome 5 Solid",
+                "Font Awesome 5 Regular",
+                "Font Awesome 5 Brands",
+                "simple-line-icons",
+            ],
+            urls: ["../../assets/css/fonts.min.css"],
+        },
+        active: function() {
+            sessionStorage.fonts = true;
+        },
+    });
     </script>
 
     <!-- CSS Files -->
@@ -534,21 +549,21 @@ $json_gender_data = json_encode($gender_data);
                                                 $bg_color = "bg-info";    // Biru (Setengah)
                                             }
                                     ?>
-                                            <div class="mb-4">
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span class="fw-bold"><?= $row['nama_kelas']; ?></span>
-                                                    <span class="text-muted small">
-                                                        <b><?= $terisi; ?></b> terisi dari <b><?= $total_kuota; ?></b> Kursi
-                                                        (<?= $persen; ?>%)
-                                                    </span>
-                                                </div>
-                                                <div class="progress" style="height: 15px;">
-                                                    <div class="progress-bar progress-bar-striped progress-bar-animated <?= $bg_color; ?>"
-                                                        role="progressbar" style="width: <?= $persen; ?>%"
-                                                        aria-valuenow="<?= $persen; ?>" aria-valuemin="0" aria-valuemax="100">
-                                                    </div>
-                                                </div>
+                                    <div class="mb-4">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="fw-bold"><?= $row['nama_kelas']; ?></span>
+                                            <span class="text-muted small">
+                                                <b><?= $terisi; ?></b> terisi dari <b><?= $total_kuota; ?></b> Kursi
+                                                (<?= $persen; ?>%)
+                                            </span>
+                                        </div>
+                                        <div class="progress" style="height: 15px;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated <?= $bg_color; ?>"
+                                                role="progressbar" style="width: <?= $persen; ?>%"
+                                                aria-valuenow="<?= $persen; ?>" aria-valuemin="0" aria-valuemax="100">
                                             </div>
+                                        </div>
+                                    </div>
                                     <?php
                                         endwhile;
                                     } else {
@@ -619,25 +634,25 @@ $json_gender_data = json_encode($gender_data);
                                                         $icon_class = ($row['status'] == 'Lulus') ? 'fa-check' : 'fa-times';
                                                         $btn_class = ($row['status'] == 'Lulus') ? 'btn-success' : 'btn-danger';
                                                 ?>
-                                                        <tr>
-                                                            <th scope="row">
-                                                                <button
-                                                                    class="btn btn-icon btn-round <?= $btn_class ?> btn-sm me-2">
-                                                                    <i class="fa <?= $icon_class ?>"></i>
-                                                                </button>
-                                                                <?= htmlspecialchars($row['username']) ?>
-                                                            </th>
-                                                            <td class="text-end">
-                                                                <?= date('d M Y, H:i', strtotime('now')) ?>
-                                                            </td>
-                                                            <td class="text-end fw-bold">
-                                                                <?= $row['nilai'] ?>
-                                                            </td>
-                                                            <td class="text-end">
-                                                                <span
-                                                                    class="badge <?= $badge_class ?>"><?= $row['status'] ?></span>
-                                                            </td>
-                                                        </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <button
+                                                            class="btn btn-icon btn-round <?= $btn_class ?> btn-sm me-2">
+                                                            <i class="fa <?= $icon_class ?>"></i>
+                                                        </button>
+                                                        <?= htmlspecialchars($row['username']) ?>
+                                                    </th>
+                                                    <td class="text-end">
+                                                        <?= date('d M Y, H:i', strtotime('now')) ?>
+                                                    </td>
+                                                    <td class="text-end fw-bold">
+                                                        <?= $row['nilai'] ?>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <span
+                                                            class="badge <?= $badge_class ?>"><?= $row['status'] ?></span>
+                                                    </td>
+                                                </tr>
                                                 <?php
                                                     endwhile;
                                                 } else {
@@ -673,22 +688,22 @@ $json_gender_data = json_encode($gender_data);
                                                 $colors = ['bg-primary', 'bg-info', 'bg-success', 'bg-danger', 'bg-warning', 'bg-secondary'];
                                                 $random_color = $colors[array_rand($colors)];
                                         ?>
-                                                <div class="item-list mb-3">
-                                                    <div class="avatar">
-                                                        <span
-                                                            class="avatar-title rounded-circle border border-white <?php echo $random_color; ?>">
-                                                            <?php echo $initial; ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="info-user ms-3">
-                                                        <div class="username fw-bold">
-                                                            <?php echo htmlspecialchars($row['username']); ?></div>
-                                                        <div class="status text-muted" style="font-size: 0.85rem;">
-                                                            Melakukan pendaftaran
-                                                            <?php echo time_ago($row['created_at']); ?>
-                                                        </div>
-                                                    </div>
+                                        <div class="item-list mb-3">
+                                            <div class="avatar">
+                                                <span
+                                                    class="avatar-title rounded-circle border border-white <?php echo $random_color; ?>">
+                                                    <?php echo $initial; ?>
+                                                </span>
+                                            </div>
+                                            <div class="info-user ms-3">
+                                                <div class="username fw-bold">
+                                                    <?php echo htmlspecialchars($row['username']); ?></div>
+                                                <div class="status text-muted" style="font-size: 0.85rem;">
+                                                    Melakukan pendaftaran
+                                                    <?php echo time_ago($row['created_at']); ?>
                                                 </div>
+                                            </div>
+                                        </div>
                                         <?php
                                             }
                                         } else {
@@ -789,153 +804,153 @@ $json_gender_data = json_encode($gender_data);
 
 
     <script>
-        var ctx = document.getElementById('statisticsChart').getContext('2d');
+    var ctx = document.getElementById('statisticsChart').getContext('2d');
 
-        var myStatisticsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <?php echo $json_labels; ?>, // Data Tanggal dari PHP
-                datasets: [{
-                    label: "Pendaftaran Siswa",
-                    borderColor: '#177dff',
-                    pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
-                    pointRadius: 5,
-                    backgroundColor: 'rgba(23, 125, 255, 0.1)',
-                    legendColor: '#177dff',
-                    fill: true,
-                    borderWidth: 2,
-                    data: <?php echo $json_data; ?> // Data Jumlah dari PHP
-                }]
+    var myStatisticsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?php echo $json_labels; ?>, // Data Tanggal dari PHP
+            datasets: [{
+                label: "Pendaftaran Siswa",
+                borderColor: '#177dff',
+                pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
+                pointRadius: 5,
+                backgroundColor: 'rgba(23, 125, 255, 0.1)',
+                legendColor: '#177dff',
+                fill: true,
+                borderWidth: 2,
+                data: <?php echo $json_data; ?> // Data Jumlah dari PHP
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: false
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    bodySpacing: 4,
-                    mode: "nearest",
-                    intersect: 0,
-                    position: "nearest",
-                    xPadding: 10,
-                    yPadding: 10,
-                    caretPadding: 10
-                },
-                layout: {
-                    padding: {
-                        left: 5,
-                        right: 5,
-                        top: 15,
-                        bottom: 15
-                    }
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            fontColor: "rgba(0,0,0,0.5)",
-                            fontStyle: "500",
-                            beginAtZero: true,
-                            maxTicksLimit: 5,
-                            padding: 20,
-                            // Memastikan angka yang muncul adalah bulat (integer)
-                            callback: function(value) {
-                                if (Math.floor(value) === value) {
-                                    return value;
-                                }
+            tooltips: {
+                bodySpacing: 4,
+                mode: "nearest",
+                intersect: 0,
+                position: "nearest",
+                xPadding: 10,
+                yPadding: 10,
+                caretPadding: 10
+            },
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 5,
+                    top: 15,
+                    bottom: 15
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        fontColor: "rgba(0,0,0,0.5)",
+                        fontStyle: "500",
+                        beginAtZero: true,
+                        maxTicksLimit: 5,
+                        padding: 20,
+                        // Memastikan angka yang muncul adalah bulat (integer)
+                        callback: function(value) {
+                            if (Math.floor(value) === value) {
+                                return value;
                             }
-                        },
-                        gridLines: {
-                            drawTicks: false,
-                            display: false
                         }
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            zeroLineColor: "transparent"
-                        },
-                        ticks: {
-                            padding: 20,
-                            fontColor: "rgba(0,0,0,0.5)",
-                            fontStyle: "500"
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            const calendarEl = document.getElementById('calendar');
-            let calendar;
-
-            document.getElementById('openCalendar').addEventListener('click', function(e) {
-                e.preventDefault();
-
-                const modal = new bootstrap.Modal(document.getElementById('calendarModal'));
-                modal.show();
-
-                setTimeout(() => {
-                    if (!calendar) {
-                        calendar = new FullCalendar.Calendar(calendarEl, {
-                            initialView: 'dayGridMonth',
-                            height: 500,
-                            headerToolbar: {
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                            },
-                            events: [{
-                                title: 'Pendaftaran',
-                                start: new Date().toISOString().split('T')[
-                                    0]
-                            }]
-                        });
-                        calendar.render();
+                    },
+                    gridLines: {
+                        drawTicks: false,
+                        display: false
                     }
-                }, 300);
-            });
-        });
+                }],
+                xAxes: [{
+                    gridLines: {
+                        zeroLineColor: "transparent"
+                    },
+                    ticks: {
+                        padding: 20,
+                        fontColor: "rgba(0,0,0,0.5)",
+                        fontStyle: "500"
+                    }
+                }]
+            }
+        }
+    });
+    </script>
 
-        document.getElementById('openMaps').addEventListener('click', function(e) {
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const calendarEl = document.getElementById('calendar');
+        let calendar;
+
+        document.getElementById('openCalendar').addEventListener('click', function(e) {
             e.preventDefault();
-            const modalMaps = new bootstrap.Modal(document.getElementById('mapsModal'));
-            modalMaps.show();
+
+            const modal = new bootstrap.Modal(document.getElementById('calendarModal'));
+            modal.show();
+
+            setTimeout(() => {
+                if (!calendar) {
+                    calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        height: 500,
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        events: [{
+                            title: 'Pendaftaran',
+                            start: new Date().toISOString().split('T')[
+                                0]
+                        }]
+                    });
+                    calendar.render();
+                }
+            }, 300);
         });
+    });
+
+    document.getElementById('openMaps').addEventListener('click', function(e) {
+        e.preventDefault();
+        const modalMaps = new bootstrap.Modal(document.getElementById('mapsModal'));
+        modalMaps.show();
+    });
     </script>
 
     <script>
-        var genderCtx = document.getElementById('genderPieChart').getContext('2d');
-        var myGenderPieChart = new Chart(genderCtx, {
-            type: 'pie',
-            data: {
-                datasets: [{
-                    data: <?php echo $json_gender_data; ?>,
-                    backgroundColor: ['#1d7af3',
-                        '#f3545d'
-                    ], // Biru untuk Laki-laki, Merah Muda untuk Perempuan
-                    borderWidth: 2
-                }],
-                labels: <?php echo $json_gender_labels; ?>
+    var genderCtx = document.getElementById('genderPieChart').getContext('2d');
+    var myGenderPieChart = new Chart(genderCtx, {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: <?php echo $json_gender_data; ?>,
+                backgroundColor: ['#1d7af3',
+                    '#f3545d'
+                ], // Biru untuk Laki-laki, Merah Muda untuk Perempuan
+                borderWidth: 2
+            }],
+            labels: <?php echo $json_gender_labels; ?>
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom'
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    position: 'bottom'
-                },
-                // Plugin pieceLabel untuk menampilkan persentase di dalam chart
-                pieceLabel: {
-                    render: 'percentage',
-                    fontColor: 'white',
-                    fontSize: 12,
-                    fontStyle: 'bold'
-                }
+            // Plugin pieceLabel untuk menampilkan persentase di dalam chart
+            pieceLabel: {
+                render: 'percentage',
+                fontColor: 'white',
+                fontSize: 12,
+                fontStyle: 'bold'
             }
-        });
+        }
+    });
     </script>
 </body>
 
