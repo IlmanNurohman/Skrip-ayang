@@ -436,7 +436,7 @@ function time_ago($timestamp) {
                                                                 <?= htmlspecialchars($row['username']) ?>
                                                             </th>
                                                             <td class="text-end">
-                                                                <?= date('d M Y, H:i', strtotime('now')) ?>
+                                                                <?= date('d M Y, H:i', strtotime($row['created_at'])) ?>
                                                             </td>
                                                             <td class="text-end fw-bold">
                                                                 <?= $row['nilai'] ?>
