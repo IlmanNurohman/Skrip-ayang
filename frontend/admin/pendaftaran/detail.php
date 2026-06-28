@@ -572,11 +572,20 @@
                                               aria-label="Close"></button>
                                       </div>
                                       <div class="modal-body text-center">
+                                          <?php if (!empty($data['foto_ijazah'])): ?>
+
                                           <iframe src="../../backend/<?= $data['foto_ijazah'] ?>" width="100%"
-                                              height="500px"></iframe>
+                                              height="500px">
+                                          </iframe>
 
+                                          <?php else: ?>
 
+                                          <div class="alert alert-warning">
+                                              <i class="bi bi-exclamation-triangle"></i>
+                                              File ijazah belum tersedia.
+                                          </div>
 
+                                          <?php endif; ?>
                                       </div>
                                   </div>
                               </div>
@@ -592,8 +601,20 @@
                                               aria-label="Close"></button>
                                       </div>
                                       <div class="modal-body text-center">
+                                          <?php if (!empty($data['foto_raport'])): ?>
+
                                           <iframe src="../../backend/<?= $data['foto_raport'] ?>" width="100%"
-                                              height="500px"></iframe>
+                                              height="500px">
+                                          </iframe>
+
+                                          <?php else: ?>
+
+                                          <div class="alert alert-warning">
+                                              <i class="bi bi-exclamation-triangle"></i>
+                                              File raport belum tersedia.
+                                          </div>
+
+                                          <?php endif; ?>
                                       </div>
                                   </div>
                               </div>
@@ -610,8 +631,20 @@
                                               aria-label="Close"></button>
                                       </div>
                                       <div class="modal-body text-center">
+                                          <?php if (!empty($data['foto_kk'])): ?>
+
                                           <iframe src="../../backend/<?= $data['foto_kk'] ?>" width="100%"
-                                              height="500px"></iframe>
+                                              height="500px">
+                                          </iframe>
+
+                                          <?php else: ?>
+
+                                          <div class="alert alert-warning">
+                                              <i class="bi bi-exclamation-triangle"></i>
+                                              File kartu keluarga belum tersedia.
+                                          </div>
+
+                                          <?php endif; ?>
                                       </div>
                                   </div>
                               </div>
@@ -628,8 +661,20 @@
                                               aria-label="Close"></button>
                                       </div>
                                       <div class="modal-body text-center">
+                                          <?php if (!empty($data['ktp_ortu'])): ?>
+
                                           <iframe src="../../backend/<?= $data['ktp_ortu'] ?>" width="100%"
-                                              height="500px"></iframe>
+                                              height="500px">
+                                          </iframe>
+
+                                          <?php else: ?>
+
+                                          <div class="alert alert-warning">
+                                              <i class="bi bi-exclamation-triangle"></i>
+                                              File ktp orangtua belum tersedia.
+                                          </div>
+
+                                          <?php endif; ?>
                                       </div>
                                   </div>
                               </div>

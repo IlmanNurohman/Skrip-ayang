@@ -60,11 +60,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Fungsi upload sederhana
-  // Fungsi upload PDF
-/*function uploadFile($file, $prefix, $folder)
-{
-    // Cek apakah file dipilih
-    if (!empty($file['name'])) {
+
+    function uploadFile($file, $prefix, $folder)
+    {
+        // Kalau tidak upload file
+        if (empty($file['name'])) {
+            return [
+                'status' => true,
+                'path' => null // atau ''
+            ];
+        }
 
         // Ambil ekstensi file
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -105,83 +110,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ];
     }
 
-    return [
-        'status' => false,
-        'message' => 'File wajib diupload!'
-    ];
-}*/
-function uploadFile($file, $prefix, $folder)
-{
-    // Kalau tidak upload file
-    if (empty($file['name'])) {
-        return [
-            'status' => true,
-            'path' => null // atau ''
-        ];
+    $ijazah = uploadFile($_FILES['foto_ijazah'], "ijazah", $folderUpload);
+    if (!$ijazah['status']) {
+        die($ijazah['message']);
     }
+    $path_ijazah = $ijazah['path'];
 
-    // Ambil ekstensi file
-    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-    // Validasi ekstensi harus pdf
-    if ($ext !== 'pdf') {
-        return [
-            'status' => false,
-            'message' => 'File harus berformat PDF!'
-        ];
+    $raport = uploadFile($_FILES['foto_raport'], "raport", $folderUpload);
+    if (!$raport['status']) {
+        die($raport['message']);
     }
+    $path_raport = $raport['path'];
 
-    // Validasi MIME type
-    $mime = mime_content_type($file['tmp_name']);
-
-    if ($mime !== 'application/pdf') {
-        return [
-            'status' => false,
-            'message' => 'File tidak valid, hanya PDF yang diperbolehkan!'
-        ];
+    $kk = uploadFile($_FILES['foto_kk'], "kk", $folderUpload);
+    if (!$kk['status']) {
+        die($kk['message']);
     }
+    $path_kk = $kk['path'];
 
-    // Generate nama file
-    $namaFile = $prefix . "_" . time() . ".pdf";
-    $target = $folder . $namaFile;
-
-    // Upload file
-    if (move_uploaded_file($file['tmp_name'], $target)) {
-        return [
-            'status' => true,
-            'path' => $target
-        ];
+    $ktp = uploadFile($_FILES['ktp_ortu'], "ktp_ortu", $folderUpload);
+    if (!$ktp['status']) {
+        die($ktp['message']);
     }
-
-    return [
-        'status' => false,
-        'message' => 'Gagal upload file!'
-    ];
-}
-
-   $ijazah = uploadFile($_FILES['foto_ijazah'], "ijazah", $folderUpload);
-if (!$ijazah['status']) {
-    die($ijazah['message']);
-}
-$path_ijazah = $ijazah['path'];
-
-$raport = uploadFile($_FILES['foto_raport'], "raport", $folderUpload);
-if (!$raport['status']) {
-    die($raport['message']);
-}
-$path_raport = $raport['path'];
-
-$kk = uploadFile($_FILES['foto_kk'], "kk", $folderUpload);
-if (!$kk['status']) {
-    die($kk['message']);
-}
-$path_kk = $kk['path'];
-
-$ktp = uploadFile($_FILES['ktp_ortu'], "ktp_ortu", $folderUpload);
-if (!$ktp['status']) {
-    die($ktp['message']);
-}
-$path_ktp_ortu = $ktp['path'];
+    $path_ktp_ortu = $ktp['path'];
     $status = "pending";
 
     // Sesuaikan kolom dengan struktur DB Anda
