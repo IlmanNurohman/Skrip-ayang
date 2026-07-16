@@ -6,27 +6,46 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
     die('Akses ditolak');
 }
 
-
-$id = $_GET['id'];
-$user = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM users WHERE id=$id"));
+$id = (int)$_POST['id'];
 
 if (isset($_POST['update'])) {
-    $username = $_POST['username'];
-    $role     = $_POST['role'];
+
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $role     = mysqli_real_escape_string($conn, $_POST['role']);
 
     if (!empty($_POST['password'])) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        mysqli_query($conn, "
-            UPDATE users SET username='$username', password='$password', role='$role'
+
+        $query = mysqli_query($conn, "
+            UPDATE users
+            SET username='$username',
+                password='$password',
+                role='$role'
             WHERE id=$id
         ");
     } else {
-        mysqli_query($conn, "
-            UPDATE users SET username='$username', role='$role'
+        $query = mysqli_query($conn, "
+            UPDATE users
+            SET username='$username',
+                role='$role'
             WHERE id=$id
         ");
     }
 
+    if ($query) {
+        $_SESSION['swal'] = [
+            'type' => 'success',
+            'title' => 'Berhasil!',
+            'text' => 'Data user berhasil diupdate.'
+        ];
+    } else {
+        $_SESSION['swal'] = [
+            'type' => 'error',
+            'title' => 'Gagal Database!',
+            'text' => mysqli_error($conn)
+        ];
+    }
+
     header("Location: index.php");
+    exit();
 }
-?>

@@ -24,6 +24,7 @@
         // Query ambil data detail
         $query = mysqli_query($conn, "SELECT * FROM pendaftaran WHERE id = '$id'");
         $data = mysqli_fetch_assoc($query);
+        //echo '<pre>';print_r($data); die;
 
         if (!$data) {
             die("Data tidak ditemukan.");
@@ -300,7 +301,7 @@
                                               </li>
                                               <li>
                                                   <div class="dropdown-divider"></div>
-                                                  <a class="dropdown-item" href="../../logout.php">Logout</a>
+                                                  <a class="dropdown-item" href="../../../logout.php">Logout</a>
                                               </li>
                                           </div>
                                       </ul>
@@ -574,7 +575,7 @@
                                       <div class="modal-body text-center">
                                           <?php if (!empty($data['foto_ijazah'])): ?>
 
-                                          <iframe src="../../backend/<?= $data['foto_ijazah'] ?>" width="100%"
+                                          <iframe src="../../../backend/<?= $data['foto_ijazah'] ?>" width="100%"
                                               height="500px">
                                           </iframe>
 
@@ -603,7 +604,7 @@
                                       <div class="modal-body text-center">
                                           <?php if (!empty($data['foto_raport'])): ?>
 
-                                          <iframe src="../../backend/<?= $data['foto_raport'] ?>" width="100%"
+                                          <iframe src="../../../backend/<?= $data['foto_raport'] ?>" width="100%"
                                               height="500px">
                                           </iframe>
 
@@ -633,7 +634,7 @@
                                       <div class="modal-body text-center">
                                           <?php if (!empty($data['foto_kk'])): ?>
 
-                                          <iframe src="../../backend/<?= $data['foto_kk'] ?>" width="100%"
+                                          <iframe src="../../../backend/<?= $data['foto_kk'] ?>" width="100%"
                                               height="500px">
                                           </iframe>
 
@@ -663,7 +664,7 @@
                                       <div class="modal-body text-center">
                                           <?php if (!empty($data['ktp_ortu'])): ?>
 
-                                          <iframe src="../../backend/<?= $data['ktp_ortu'] ?>" width="100%"
+                                          <iframe src="../../../backend/<?= $data['ktp_ortu'] ?>" width="100%"
                                               height="500px">
                                           </iframe>
 
