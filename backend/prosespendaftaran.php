@@ -28,6 +28,43 @@ function decryptData($string)
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $required = [
+    'nama_lengkap' => 'Nama Lengkap',
+    'jenis_kelamin' => 'Jenis Kelamin',
+    'no_hp' => 'No HP',
+    'email' => 'Email',
+    'alamat' => 'Alamat',
+    'asal_sekolah' => 'Asal Sekolah',
+    'nik' => 'NIK',
+    'nisn' => 'NISN',
+    'agama' => 'Agama',
+    'nama_ayah' => 'Nama Ayah',
+    'nama_ibu' => 'Nama Ibu',
+    'pekerjaan_ayah' => 'Pekerjaan Ayah',
+    'pekerjaan_ibu' => 'Pekerjaan Ibu',
+    'pendidikan_ayah' => 'Pendidikan Ayah',
+    'pendidikan_ibu' => 'Pendidikan Ibu',
+    'penghasilan_ayah' => 'Penghasilan Ayah',
+    'penghasilan_ibu' => 'Penghasilan Ibu',
+    'alamat_asal_sekolah' => 'Alamat Asal Sekolah',
+    'nik_ayah' => 'NIK Ayah',
+    'nik_ibu' => 'NIK Ibu',
+    'tanggal_lahir_ortu' => 'Tanggal Lahir Orang Tua',
+    'alamat_ortu' => 'Alamat Orang Tua'
+];
+
+foreach ($required as $field => $label) {
+    if (!isset($_POST[$field]) || trim($_POST[$field]) == '') {
+        $_SESSION['swal'] = [
+            'type' => 'error',
+            'title' => 'Data Belum Lengkap',
+            'text' => "$label wajib diisi."
+        ];
+
+        header("Location: ../frontend/siswa/form_pendaftaran.php");
+        exit();
+    }
+}
 
     $id_user = $_SESSION['user_id'];
     $nama_lengkap     = encryptData(mysqli_real_escape_string($conn, $_POST['nama_lengkap']));
@@ -58,6 +95,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!is_dir($folderUpload)) {
         mkdir($folderUpload, 0777, true);
     }
+    $requiredFiles = [
+    'foto_ijazah' => 'Ijazah',
+    'foto_raport' => 'Raport',
+    'foto_kk' => 'Kartu Keluarga',
+    'ktp_ortu' => 'KTP Orang Tua'
+];
+
+foreach ($requiredFiles as $field => $label) {
+    if (
+        !isset($_FILES[$field]) ||
+        $_FILES[$field]['error'] == UPLOAD_ERR_NO_FILE
+    ) {
+        $_SESSION['swal'] = [
+            'type' => 'error',
+            'title' => 'Upload Gagal',
+            'text' => "$label wajib diupload."
+        ];
+
+        header("Location: ../frontend/siswa/form_pendaftaran.php");
+        exit();
+    }
+}
 
     // Fungsi upload sederhana
 

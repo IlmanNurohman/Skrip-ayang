@@ -457,17 +457,19 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
+                                        <?php if(!empty($data['foto_ijazah'])): ?>
                                         <iframe src="../../backend/<?= $data['foto_ijazah'] ?>" width="100%"
                                             height="500px"></iframe>
-
-
-
+                                        <?php else: ?>
+                                        <div class="alert alert-warning">
+                                            <i class="bi bi-exclamation-triangle"></i>
+                                            File ijazah belum tersedia.
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
 
                         <div class="modal fade" id="modalRaport" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -479,8 +481,15 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
+                                        <?php if (!empty($data['foto_raport'])): ?>
                                         <iframe src="../../backend/<?= $data['foto_raport'] ?>" width="100%"
                                             height="500px"></iframe>
+                                        <?php else: ?>
+                                        <div class="alert alert-warning">
+                                            <i class="bi bi-exclamation-triangle"></i>
+                                            File raport belum tersedia.
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -497,8 +506,16 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
+                                        <?php if (!empty($data['foto_kk'])): ?>
                                         <iframe src="../../backend/<?= $data['foto_kk'] ?>" width="100%"
                                             height="500px"></iframe>
+
+                                        <?php else: ?>
+                                        <div class="alert alert-warning">
+                                            <i class="bi bi-exclamation-triangle"></i>
+                                            File Kartu Keluarga belum tersedia.
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -515,8 +532,15 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
-                                        <iframe src="../../backend/<?= $data['ktp_ortu'] ?>" width="100%"
+                                        <?php if (!empty($data['ktp_ortu'])): ?> <iframe
+                                            src="../../backend/<?= $data['ktp_ortu'] ?>" width="100%"
                                             height="500px"></iframe>
+                                        <?php else: ?>
+                                        <div class="alert alert-warning">
+                                            <i class="bi bi-exclamation-triangle"></i>
+                                            File ktp belum tersedia.
+                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
