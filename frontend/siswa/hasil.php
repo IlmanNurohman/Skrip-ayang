@@ -10,6 +10,16 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'siswa') {
 
 $id_user = $_SESSION['user_id'];
 
+// Cegah siswa pindahan mengakses halaman hasil CBT ini,
+// karena mereka tidak ikut tes dan tidak punya data nilai_seleksi berupa skor.
+$q_jenis = mysqli_query($conn, "SELECT jenis_pendaftaran FROM pendaftaran WHERE id_user = '$id_user' LIMIT 1");
+$d_jenis = mysqli_fetch_assoc($q_jenis);
+
+if ($d_jenis && $d_jenis['jenis_pendaftaran'] === 'pindahan') {
+    header("Location: hasil_pendaftaran.php");
+    exit();
+}
+
 // Ambil data nilai dari database
 $query = mysqli_query($conn, "SELECT n.*, u.username 
                               FROM nilai_seleksi n 

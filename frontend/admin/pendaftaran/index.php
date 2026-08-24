@@ -132,6 +132,13 @@ function decryptData($string)
                                 <p>Kelas</p>
                             </a>
                         </li>
+
+                        <li class="nav-item active">
+                            <a href="../laporan/index.php">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>Laporan</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -260,6 +267,7 @@ function decryptData($string)
                                                     <th>No</th>
                                                     <th>Nama</th>
                                                     <th>Asal Sekolah</th>
+                                                    <th>Jenis Pendaftaran</th>
                                                     <th>Status</th>
                                                     <th style="width: 10%">Aksi</th>
                                                 </tr>
@@ -273,6 +281,7 @@ function decryptData($string)
                                                     <td><?= $no++ ?></td>
                                                     <td><?= decryptData($row['nama_lengkap']) ?></td>
                                                     <td><?= decryptData($row['asal_sekolah']) ?></td>
+                                                    <td><?= ($row['jenis_pendaftaran']) ?></td>
                                                     <td>
                                                         <?php
                                                             // Logika Badge Warna Berdasarkan Status

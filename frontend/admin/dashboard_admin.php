@@ -248,6 +248,12 @@ $json_gender_data = json_encode($gender_data);
                                 <p>Kelas</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="laporan/index.php">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>Laporan</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -488,18 +494,7 @@ $json_gender_data = json_encode($gender_data);
                                     <div class="card-head-row">
                                         <div class="card-title">Grafik Pendaftaran siswa</div>
                                         <div class="card-tools">
-                                            <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
-                                                <span class="btn-label">
-                                                    <i class="fa fa-pencil"></i>
-                                                </span>
-                                                Export
-                                            </a>
-                                            <a href="#" class="btn btn-label-info btn-round btn-sm">
-                                                <span class="btn-label">
-                                                    <i class="fa fa-print"></i>
-                                                </span>
-                                                Print
-                                            </a>
+
                                         </div>
                                     </div>
                                 </div>

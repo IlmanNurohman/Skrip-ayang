@@ -14,6 +14,22 @@ if (!isset($_SESSION['user_id'])) {
 }
 $id_user = $_SESSION['user_id'];
 
+// Cek jenis pendaftaran siswa ini
+$query_daftar = mysqli_query($conn, "SELECT jenis_pendaftaran, status FROM pendaftaran WHERE id_user = '$id_user' LIMIT 1");
+$data_daftar = mysqli_fetch_assoc($query_daftar);
+
+if (!$data_daftar) {
+    // Belum daftar sama sekali
+    header("Location: form_pendaftaran.php");
+    exit();
+}
+
+// Siswa pindahan tidak perlu tes seleksi, langsung ke hasil pendaftaran
+if ($data_daftar['jenis_pendaftaran'] === 'pindahan') {
+    header("Location: hasil_pendaftaran.php");
+    exit();
+}
+
 $query_cek_ujian = mysqli_query($conn, "SELECT * FROM nilai_seleksi WHERE siswa_id = '$id_user'");
 $sudah_ujian = mysqli_num_rows($query_cek_ujian);
 

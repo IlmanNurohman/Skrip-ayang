@@ -14,6 +14,8 @@ $query = mysqli_query($conn, "SELECT p.*, n.nilai, n.status as status_lulus, k.n
     WHERE p.id_user = '$id_user'");
 $data = mysqli_fetch_assoc($query);
 
+$is_pindahan = ($data['jenis_pendaftaran'] ?? '') === 'pindahan';
+
 // Fungsi Dekripsi (Pastikan kunci sama)
 define('SECRET_KEY', 'e7b434689dac661d0c8fb8d192a36fec76649fc82c3f83e80d17c38d9c3d7320');
 define('SECRET_IV', '2dee9400f5a55a4cbce6e5ed27f615e2');
@@ -181,8 +183,13 @@ function decryptData($string) {
 
 
         <div class="content">
+            <?php if ($is_pindahan): ?>
+            <h3>SURAT KETERANGAN DITERIMA (JALUR PINDAHAN)</h3>
+            <p>Berdasarkan verifikasi berkas pindahan, panitia menyatakan bahwa:</p>
+            <?php else: ?>
             <h3>SURAT KETERANGAN LULUS SELEKSI</h3>
             <p>Berdasarkan hasil seleksi ujian masuk, panitia menyatakan bahwa:</p>
+            <?php endif; ?>
 
             <table class="biodata">
                 <tr>
@@ -193,22 +200,35 @@ function decryptData($string) {
                     <td class="label">Nomor NIK</td>
                     <td>: <?= decryptData($data['nik']) ?></td>
                 </tr>
+                <?php if ($is_pindahan): ?>
+                <tr>
+                    <td class="label">Asal Sekolah Pindahan</td>
+                    <td>: <?= decryptData($data['asal_sekolah_pindahan']) ?></td>
+                </tr>
+                <?php else: ?>
                 <tr>
                     <td class="label">Asal Sekolah</td>
                     <td>: <?= decryptData($data['asal_sekolah']) ?></td>
                 </tr>
+                <?php endif; ?>
                 <tr>
                     <td class="label">Email</td>
                     <td>: <?= decryptData($data['email']) ?></td>
                 </tr>
+                <?php if (!$is_pindahan): ?>
                 <tr>
                     <td class="label">Skor Ujian</td>
                     <td>: <strong><?= $data['nilai'] ?></strong></td>
                 </tr>
+                <?php endif; ?>
             </table>
 
-            <h2>DINYATAKAN: LULUS</h2>
-            <p>Ditempatkan pada kelas:</p>
+            <h2><?= $is_pindahan ? 'DINYATAKAN: DITERIMA' : 'DINYATAKAN: LULUS' ?></h2>
+            <p>
+                <?= $is_pindahan
+                    ? 'Sebagai siswa pindahan, ditempatkan pada kelas:'
+                    : 'Ditempatkan pada kelas:' ?>
+            </p>
             <h3 style="background: #f1f1f1; display: inline-block; padding: 10px 20px; border-radius: 5px;">
                 <?= $data['nama_kelas'] ?>
             </h3>

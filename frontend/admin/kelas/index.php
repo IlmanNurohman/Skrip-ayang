@@ -162,6 +162,12 @@ function decryptData($string)
                                 <p>Kelas</p>
                             </a>
                         </li>
+                        <li class="nav-item active">
+                            <a href="../laporan/index.php">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>Laporan</p>
+                            </a>
+                        </li>
 
                     </ul>
                 </div>

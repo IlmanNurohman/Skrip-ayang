@@ -42,6 +42,7 @@ $query = mysqli_query(
     "SELECT * FROM pendaftaran 
      WHERE id_user = '$id_user'
      AND status = 'lulus'
+     AND jenis_pendaftaran = 'reguler'
      LIMIT 1"
 );
 

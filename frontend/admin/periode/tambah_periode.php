@@ -125,6 +125,13 @@ $data_periode = mysqli_query($conn, "SELECT * FROM periode ORDER BY tahun DESC")
                                 <p>Kelas</p>
                             </a>
                         </li>
+
+                        <li class="nav-item active">
+                            <a href="../laporan/index.php">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>Laporan</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

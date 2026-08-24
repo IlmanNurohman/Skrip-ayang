@@ -14,10 +14,33 @@ $query = mysqli_query($conn, "SELECT p.*, n.nilai, n.status as status_lulus, n.j
     WHERE p.id_user = '$id_user'");
 $data = mysqli_fetch_assoc($query);
 
+// --- Auto-assign kelas untuk siswa PINDAHAN yang sudah disetujui admin (status = 'lulus') ---
+// Siswa pindahan tidak ikut tes seleksi, jadi begitu status pendaftarannya 'lulus'
+// tapi belum punya baris di nilai_seleksi, langsung buatkan baris dengan nilai/skor NULL
+// dan tempatkan ke kelas yang dipilih saat mendaftar (kolom kelas_pindahan).
+if ($data && $data['jenis_pendaftaran'] === 'pindahan' && $data['status'] === 'lulus' && $data['status_lulus'] === null) {
+    $id_kelas_pindahan = (int) $data['kelas_pindahan'];
+    // Catatan: kolom nilai/jml_benar/jml_salah diisi 0 (bukan NULL) karena kolom-kolom
+    // tersebut di database bertipe NOT NULL. Nilai 0 ini tidak pernah ditampilkan
+    // ke siswa pindahan karena bagian tampilan skor sudah dibungkus kondisi $is_pindahan.
+    mysqli_query($conn, "INSERT INTO nilai_seleksi (siswa_id, nilai, status, id_kelas, jml_benar, jml_salah)
+        VALUES ('$id_user', 0, 'Lulus', $id_kelas_pindahan, 0, 0)");
+
+    // Ambil ulang data supaya $data ikut ter-update dengan hasil insert di atas
+    $query = mysqli_query($conn, "SELECT p.*, n.nilai, n.status as status_lulus, n.jml_benar, n.jml_salah, k.nama_kelas 
+        FROM pendaftaran p
+        LEFT JOIN nilai_seleksi n ON p.id_user = n.siswa_id
+        LEFT JOIN kelas k ON n.id_kelas = k.id
+        WHERE p.id_user = '$id_user'");
+    $data = mysqli_fetch_assoc($query);
+}
+
 if (!$data || $data['status_lulus'] != 'Lulus') {
     echo "<script>alert('Anda belum seleksi atau dinyatakan tidak lulus'); window.location='dashboard_siswa.php';</script>";
     exit;
 }
+
+$is_pindahan = $data['jenis_pendaftaran'] === 'pindahan';
 
 $query_user = mysqli_query($conn, "SELECT username, foto FROM users WHERE id='$id_user'");
 $user = mysqli_fetch_assoc($query_user);
@@ -126,12 +149,14 @@ function decryptData($string) {
 
                             </a>
                         </li>
+                        <?php if (!$is_pindahan): ?>
                         <li class="nav-item">
                             <a href="ujian.php">
                                 <i class=" fas fa-th-list"></i>
                                 <p>Seleksi</p>
                             </a>
                         </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <a href="hasil_pendaftaran.php">
                                 <i class="fas fa-pen-square"></i>
@@ -254,14 +279,16 @@ function decryptData($string) {
                                         <div class="col-md-12">
 
                                             <div class="card-header bg-success py-3 rounded">
-                                                <h2 class="text-white text-center mb-0">PENGUMUMAN KELULUSAN</h2>
+                                                <h2 class="text-white text-center mb-0">
+                                                    <?= $is_pindahan ? 'PENGUMUMAN PENERIMAAN (JALUR PINDAHAN)' : 'PENGUMUMAN KELULUSAN' ?>
+                                                </h2>
                                             </div>
                                             <div class="card-body">
                                                 <div class="text-center mb-4">
                                                     <h3 class="fw-bold">Selamat!
                                                         <?= decryptData($data['nama_lengkap']) ?></h3>
                                                     <p class="badge badge-success px-4 py-2" style="font-size:1.2rem">
-                                                        Dinyatakan: LULUS SELEKSI
+                                                        <?= $is_pindahan ? 'Dinyatakan: DITERIMA (PINDAHAN)' : 'Dinyatakan: LULUS SELEKSI' ?>
                                                     </p>
                                                 </div>
 
@@ -285,17 +312,36 @@ function decryptData($string) {
                                                                     <?= decryptData($data['jenis_kelamin']) ?>
                                                                 </td>
                                                             </tr>
+                                                            <?php if ($is_pindahan): ?>
+                                                            <tr>
+                                                                <td>Asal Sekolah Pindahan</td>
+                                                                <td class="fw-bold">:
+                                                                    <?= decryptData($data['asal_sekolah_pindahan']) ?>
+                                                                </td>
+                                                            </tr>
+                                                            <?php else: ?>
                                                             <tr>
                                                                 <td>Asal Sekolah</td>
                                                                 <td class="fw-bold">:
                                                                     <?= decryptData($data['asal_sekolah'])  ?>
                                                                 </td>
                                                             </tr>
+                                                            <?php endif; ?>
                                                         </table>
                                                     </div>
 
                                                     <div class="col-md-6">
-                                                        <h4 class="fw-bold border-bottom pb-2">Hasil Seleksi</h4>
+                                                        <h4 class="fw-bold border-bottom pb-2">
+                                                            <?= $is_pindahan ? 'Status Penempatan' : 'Hasil Seleksi' ?>
+                                                        </h4>
+
+                                                        <?php if ($is_pindahan): ?>
+                                                        <div class="alert alert-info text-center">
+                                                            <i class="fas fa-info-circle me-2"></i>
+                                                            Siswa jalur pindahan langsung ditempatkan tanpa mengikuti
+                                                            tes seleksi.
+                                                        </div>
+                                                        <?php else: ?>
                                                         <div class="row text-center mb-3">
                                                             <div class="col-4">
                                                                 <div class="card bg-info text-white p-2">
@@ -316,6 +362,7 @@ function decryptData($string) {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <?php endif; ?>
 
                                                         <div class="alert alert-warning text-center">
                                                             <h5 class="mb-1">Penempatan Kelas:</h5>

@@ -53,6 +53,7 @@ $query = mysqli_query(
     "SELECT * FROM pendaftaran 
      WHERE id_user = '$id_user'
      AND status = 'lulus'
+     AND jenis_pendaftaran ='reguler' 
      LIMIT 1"
 );
 
@@ -61,7 +62,7 @@ if (!$query) {
 }
 
 $cek_daftar = mysqli_fetch_assoc($query);
-
+$query_kelas = mysqli_query($conn, "SELECT id, nama_kelas FROM kelas ORDER BY nama_kelas ASC");
 ?>
 
 
@@ -317,6 +318,15 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                 <label class="mb-3"><b>Biodata Siswa</b></label>
 
                                                 <div class="form-group">
+                                                    <label>Jenis Pendaftaran<span class="text-danger">*</span></label>
+                                                    <select name="jenis_pendaftaran" id="jenis_pendaftaran"
+                                                        class="form-select form-control-sm" required
+                                                        onchange="toggleJenisPendaftaran()">
+                                                        <option value="reguler">Reguler</option>
+                                                        <option value="pindahan">Pindahan</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Nama Lengkap<span class="text-danger">*</span></label>
                                                     <input type="text" name="nama_lengkap"
                                                         class="form-control form-control-sm" required>
@@ -390,6 +400,38 @@ $cek_daftar = mysqli_fetch_assoc($query);
                                                     <label>Alamat<span class="text-danger">*</span></label>
                                                     <textarea name="alamat" rows="3"
                                                         class="form-control form-control-sm" required></textarea>
+                                                </div>
+
+                                                <div id="dataPindahan" style="display:none;">
+                                                    <label class="mb-3"><b>Data Pindahan</b></label>
+
+                                                    <div class="form-group">
+                                                        <label>Asal Sekolah Pindahan<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" name="asal_sekolah_pindahan"
+                                                            id="asal_sekolah_pindahan"
+                                                            class="form-control form-control-sm">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Kelas Tujuan<span class="text-danger">*</span></label>
+                                                        <select name="kelas_pindahan" id="kelas_pindahan"
+                                                            class="form-select form-control-sm">
+                                                            <option value="">-- Pilih Kelas --</option>
+                                                            <?php while ($k = mysqli_fetch_assoc($query_kelas)): ?>
+                                                            <option value="<?= $k['id'] ?>">
+                                                                <?= htmlspecialchars($k['nama_kelas']) ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Upload Surat Pindahan<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="file" name="surat_pindahan" id="surat_pindahan"
+                                                            class="form-control form-control-sm"
+                                                            accept=".pdf,application/pdf">
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -621,6 +663,30 @@ $cek_daftar = mysqli_fetch_assoc($query);
         </script>
         <?php unset($_SESSION['swal']);
         endif; ?>
+
+        <script>
+        function toggleJenisPendaftaran() {
+            const jenis = document.getElementById('jenis_pendaftaran').value;
+            const box = document.getElementById('dataPindahan');
+            const asal = document.getElementById('asal_sekolah_pindahan');
+            const kelas = document.getElementById('kelas_pindahan');
+            const surat = document.getElementById('surat_pindahan');
+
+            if (jenis === 'pindahan') {
+                box.style.display = 'block';
+                asal.setAttribute('required', 'required');
+                kelas.setAttribute('required', 'required');
+                // file input tidak wajib via HTML required agar tidak error saat re-submit gagal,
+                // validasi wajib upload dilakukan di backend
+            } else {
+                box.style.display = 'none';
+                asal.removeAttribute('required');
+                kelas.removeAttribute('required');
+            }
+        }
+        // Panggil sekali saat load, untuk jaga-jaga kalau browser restore value select
+        document.addEventListener('DOMContentLoaded', toggleJenisPendaftaran);
+        </script>
 
 
 </body>
