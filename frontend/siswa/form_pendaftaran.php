@@ -53,7 +53,7 @@ $query = mysqli_query(
     "SELECT * FROM pendaftaran 
      WHERE id_user = '$id_user'
      AND status = 'lulus'
-     AND jenis_pendaftaran ='reguler' 
+     AND jenis_pendaftaran ='siswa baru' 
      LIMIT 1"
 );
 
@@ -322,7 +322,7 @@ $query_kelas = mysqli_query($conn, "SELECT id, nama_kelas FROM kelas ORDER BY na
                                                     <select name="jenis_pendaftaran" id="jenis_pendaftaran"
                                                         class="form-select form-control-sm" required
                                                         onchange="toggleJenisPendaftaran()">
-                                                        <option value="reguler">Reguler</option>
+                                                        <option value="siswa baru">Siswa Baru</option>
                                                         <option value="pindahan">Pindahan</option>
                                                     </select>
                                                 </div>
